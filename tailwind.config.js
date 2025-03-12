@@ -12,9 +12,9 @@ export default {
       },
       colors: {
         "not-white": "#F6F8FA",
-        "darkest-blue": "#01B3EF",
-        "soft-pink": "#E14177",
         "some-white": "#EEF2F5",
+        "soft-pink": "#E14177",
+        "darkest-blue": "#01B3EF",
         "light-blue": "#176EB6",
         "soft-blue": "#6DCFFB",
         "dark-blue": "#01427A",

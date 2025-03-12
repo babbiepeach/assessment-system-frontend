@@ -1,10 +1,50 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { ROLE_STUDENT, ROLE_LECTURER } from "../redux/utils.jsx";
+import { setError } from '../redux/slices/message-slice.js'
+import Logo from '/ScLearn.png'
 
 const LoginPage = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const [passwordType, setPasswordType] = useState('password')
+    const [password, setPassword] = useState(null)
+    const [studentId, setStudentId] = useState(null)
+
+    // const { user } = useSelector(state => state.auth)
+    const [user, setUser] = useState({ role: null }); // before api integration
+
+    const handleLogin = (e) => {
+        e.preventDefault()
+        console.log(studentId, password)
+        setUser({ role: 'student' }) // before api integration
+    }
+
+    useEffect(() => {
+        if (user.role) {
+        const role = user.role
+            switch (role) {
+                case ROLE_STUDENT:
+                    navigate(`/${ROLE_STUDENT}`)
+                    break;
+                case ROLE_LECTURER:
+                    navigate(`/${ROLE_LECTURER}`)
+                    break;
+                default:
+                    dispatch(setError('Invalid User Role'))
+                    navigate(`/`)
+                    break;
+            }
+        }
+    }, [user.role])
+
     return (
         <div className='bg-not-white flex justify-center items-center w-[100vw] h-[100vh]'>
-            <div className='w-[70%] bg-white h-[85%] flex gap-12'>
-                <div className='flex justify-center items-center bg-hero-login bg-cover w-[50%]'>
+            <div className='w-3/4 bg-white h-[85%] flex gap-12'>
+                <div className='flex justify-center items-center bg-hero-login bg-cover w-1/2'>
                     <div className='w-[270px] h-[240px] rounded-lg backdrop-blur-md bg-white/20 p-6 text-center max-w-md flex flex-col justify-center items-center'>
                         <p className="text-white text-lg font-semibold">
                             Connecting <br /> Teachers, Inspiring <br /> Students with{" "}
@@ -16,45 +56,73 @@ const LoginPage = () => {
                         </p>
                     </div>
                 </div>
-                <div className='flex px-[24px] py-8 gap-5 flex-col w-[50%]'>
-                    <div className="flex justify-end items-end" >
-                        <img src="src/assets/ScLearn-logo.png" className='w-[4.5rem] flex' />
-                    </div>
-                    <h2 className='text-center text-darkest-blue'>Login</h2>
-                    <div className='flex flex-col gap-4 pr-6'>
-                        <div className="pb-4">
-                            <label className="block text-gray-700 font-medium mb-1">
+
+                <form onSubmit={handleLogin} className='flex flex-col items-center justify-center w-1/2 relative px-[24px] py-8 gap-5 '>
+                    <img src={Logo} className='w-[4.5rem] absolute top-5 right-5' />
+                    
+                    <h2 className='text-center font-bold text-darkest-blue'>Login</h2>
+
+                    <div className='w-full flex flex-col gap-4 pr-6'>
+                        <fieldset className="flex flex-col gap-3">
+                            <label htmlFor='id' className="text-gray-700 font-medium mb-1">
                                 Identification Number
                             </label>
                             <input
+                                id='id'
                                 type="text"
+                                required
                                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 placeholder="Enter your ID"
+                                onChange={(e) => setStudentId(e.target.value)}
                             />
-                        </div>
+                        </fieldset>
 
-                        <div className="mb-2">
-                            <label className="block text-gray-700 font-medium mb-1">
+                        <fieldset className="flex flex-col gap-3">
+                            <label htmlFor='password' className="text-gray-700 font-medium mb-1">
                                 Password
                             </label>
-                            <input
-                                type="password"
-                                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Enter your password"
-                            />
-                            <div className="text-sm pt-2">
-                                <a href="#" className="text-blue-500 hover:underline">
-                                    Forget Password?
-                                </a>
+                            <div className='relative w-full'>
+                                <input
+                                    id='password'
+                                    type={passwordType}
+                                    required
+                                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    placeholder="Enter your password"
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                {passwordType === 'password' && (
+                                    <p onClick={() => setPasswordType('text')} className='absolute right-2 top-3 text-gray-400 cursor-pointer'>
+                                        Show
+                                    </p>
+                                )}
+                                {passwordType === 'text' && (
+                                    <p onClick={() => setPasswordType('password')} className='absolute right-2 top-3 text-gray-400 cursor-pointer'>
+                                        Hide
+                                    </p>
+                                )}
                             </div>
-                        </div>
+                        </fieldset>
+
+                        <Link to='/#' className="text-sm pt-2 text-blue-500 hover:underline">
+                            Forgot Password?
+                        </Link>
                     </div>
-                    <div className='flex justify-center'>
-                        <button className="w-[60%] text-white font-medium py-2 rounded-lg bg-pink transition">
+
+                    <div className='w-full flex justify-center'>
+                        {/* <button 
+                        type='submit' 
+                        // disabled={isLoading}  // button disabled while api fetches
+                        className="w-[60%] text-white font-medium py-2 rounded-lg bg-soft-pink transition">
                             Sign Up
+                        </button> */}
+                        <button 
+                        type='submit' 
+                        // disabled={isLoading}  // button disabled while api fetches
+                        className="w-[60%] text-white font-medium py-2 rounded-lg bg-soft-pink transition">
+                            Login
                         </button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     )

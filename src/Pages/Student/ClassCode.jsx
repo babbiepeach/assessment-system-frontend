@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 
 const ClassCode = () => {
+    const [classCode, setClassCode] = useState(null)
+
+    // const { user } = useSelector(state => state.auth)
+    const user = {
+        name:'Taiwo George-Taylor', 
+        email: 'taiwogeorgetaylor.gt@gmail.com'
+    }
+
+    const handleSubmitCode = (e) => {
+        e.preventDefault()
+        console.log(classCode)
+    }
+
     return (
         <div className='bg-white rounded-xl flex justify-center items-center h-[100%] w-[100%] font-poppins'>
-            <div className='flex flex-col justify-center border border-light-gray h-[80%] rounded-xl w-[37%] p-6 '>
+            <form onSubmit={handleSubmitCode} className='flex flex-col justify-center border border-light-gray h-[80%] rounded-xl w-[37%] p-6 '>
                 <h2 className="text-xl font-semibold mb-4">Join Class</h2>
 
                 <div className="border rounded-lg p-4 mb-4 bg-gray-50">
@@ -12,9 +26,9 @@ const ClassCode = () => {
 
                         <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
                         <div>
-                            <p className="font-semibold text-gray-800">Taiwo George-Taylor</p>
+                            <p className="font-semibold text-gray-800">{user.name}</p>
                             <p className="text-sm text-gray-500">
-                                taiwogeorgetaylor.gt@gmail.com
+                                {user.email}
                             </p>
                         </div>
                     </div>
@@ -29,17 +43,18 @@ const ClassCode = () => {
                         type="text"
                         placeholder="Class Code"
                         className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                        onChange={(e) => setClassCode(e.target.value)}
                     />
                 </div>
 
 
                 <div className="flex justify-between">
                     <button className="text-red-500 font-medium">Cancel</button>
-                    <button className="bg-gray-300 text-gray-500 px-4 py-2 rounded-lg cursor-not-allowed">
+                    <button type='submit' className="bg-gray-300 text-gray-500 px-4 py-2 rounded-lg cursor-not-allowed">
                         Join
                     </button>
                 </div>
-            </div>
+            </form>
         </div>
     )
 }

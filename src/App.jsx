@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { STUDENT, LECTURER } from "./redux/utils.jsx";
+import { ROLE_STUDENT, ROLE_LECTURER } from "./redux/utils.jsx";
 import { clearError, clearSuccess } from './redux/slices/message-slice'
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.jsx'
 import FourZeroFour from './components/ErrorBoundary/FourZeroFour.jsx'
@@ -26,7 +26,7 @@ function App() {
     return (
       <Routes>
         {/* Nested Routes inside StudentLayout */}
-        <Route path={`/${STUDENT}`} element={<StudentLayout />}>
+        <Route path={`/${ROLE_STUDENT}`} element={<StudentLayout />}>
           <Route index element={<StudentDashboard />} />
           <Route path="join-class" element={<ClassCode />} />
           <Route path="classes" element={<StudentClasses />} />
@@ -35,11 +35,13 @@ function App() {
           <Route path="logout" element={<Logout />} />
         </Route>
 
-        {/* <Route path={`/${LECTURER}`} element={<StudentLayout />}>
+        {/* <Route path={`/${ROLE_LECTURER}`} element={<StudentLayout />}>
           <Route index element={<StudentDashboard />} />
           
           <Route path="logout" element={<Logout />} />
         </Route> */}
+
+        <Route path='*' element={<FourZeroFour />} />
       </Routes>
     )
   }
