@@ -32,7 +32,7 @@ function App() {
 
         <Route path="/lecturer" element={<LecturerLayout />}>
           <Route index element={<LecturerDashboard />} />
-          <Route path="Lecturer-classes" element={<LecturerClasses />} />
+          <Route path="lecturer-classes" element={<LecturerClasses />} />
           <Route path="logout" element={<Logout />} />
         </Route>
       </Routes>

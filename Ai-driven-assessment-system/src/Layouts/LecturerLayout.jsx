@@ -5,11 +5,20 @@ import HeaderLecturer from "../components/HeaderLecturer.jsx";
 
 const LecturerLayout = () => {
     return (
-        <>
-            <HeaderLecturer />
-            <LecturerSidebar />
-            <Outlet />
-        </>
+        <div className="flex h-screen w-full">
+            <div>
+                <LecturerSidebar />
+            </div>
+
+            <div className="flex-1 flex flex-col">
+                <div>
+                    <HeaderLecturer />
+                </div>
+                <div className="flex-1 flex justify-center items-center bg-gray-100 p-6">
+                    <Outlet />
+                </div>
+            </div>
+        </div>
     )
 }
 
