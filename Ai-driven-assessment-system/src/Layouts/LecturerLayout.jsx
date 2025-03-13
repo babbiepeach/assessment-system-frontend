@@ -1,12 +1,12 @@
 import React from 'react'
-import { Outlet, Link } from 'react-router-dom'
-import LecturerSidebar from "src/components/LecturerSidebar.jsx";
-import LecturerHeader from "src/components/HeaderLecturer.jsx";
+import { Outlet } from 'react-router-dom'
+import LecturerSidebar from "../components/LecturerSidebar.jsx";
+import HeaderLecturer from "../components/HeaderLecturer.jsx";
 
 const LecturerLayout = () => {
     return (
         <>
-            <LecturerHeader />
+            <HeaderLecturer />
             <LecturerSidebar />
             <Outlet />
         </>

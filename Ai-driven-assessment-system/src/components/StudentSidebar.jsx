@@ -37,7 +37,7 @@ const StudentSidebar = () => {
                             <div className="flex items-center px-5 py-2 pl-4 rounded-md 
                                     hover:bg-soft-blue hover:text-white transition-colors duration-200 cursor-pointer
                                     active:bg-soft-blue active:text-white">
-                                <Link to="/student/classes" className="flex items-center gap-2 flex-1">
+                                <Link to="/student/student-classes" className="flex items-center gap-2 flex-1">
                                     <img src={BookIcon} alt="Enrolled Classes" />
                                     <span>Enrolled Classes</span>
                                 </Link>
