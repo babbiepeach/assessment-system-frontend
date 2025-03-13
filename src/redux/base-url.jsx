@@ -1,0 +1,1 @@
+export const baseUrl = 'http://localhost:8080' // replace with deployed api base url

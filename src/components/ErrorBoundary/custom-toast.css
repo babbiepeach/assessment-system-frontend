@@ -1,0 +1,42 @@
+.Toastify__toast-theme--colored.Toastify__toast--success{
+    @apply bg-[#00338d];
+}
+
+.Toastify__toast-theme--colored.Toastify__toast--error {
+    @apply bg-[#C50000];
+}
+
+/* Make toast bigger */
+.Toastify__toast {
+    margin-top: 35vh;
+    width: 350px !important; /* Adjust width */
+    min-height: 120px; /* Adjust height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Toastify__toast--success,
+.Toastify__toast--error {
+    background-color: white !important;
+}
+
+.custom-toast {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    text-align: center;
+}
+
+.toast-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.toast-message {
+    font-size: 16px;
+    color: black;
+}
