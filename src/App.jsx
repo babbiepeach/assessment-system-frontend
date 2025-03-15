@@ -8,6 +8,7 @@ import FourZeroFour from './components/ErrorBoundary/FourZeroFour.jsx'
 
 import LoginPage from "./Pages/LoginPage.jsx";
 import StudentLayout from "./Layouts/StudentLayout";
+import LecturerLayout from "./Layouts/LecturerLayout"
 import Logout from "./Pages/Logout";
 
 // student pages
@@ -16,6 +17,10 @@ import StudentNotification from "./Pages/Student/StudentNotification.jsx";
 import StudentClasses from "./Pages/Student/StudentClasses.jsx";
 import ClassCode from "./Pages/Student/ClassCode.jsx"
 import StudentDashboard from "./Pages/Student/StudentDashboard.jsx";
+
+// lecturer pages
+import LecturerDashboard from "./Pages/Lecturer/LecturerDashboard.jsx";
+import LecturerClasses from "./Pages/Lecturer/LecturerClasses.jsx";
 
 const HomePage = lazy(() => import('./Pages/HomePage.jsx'))
 
@@ -35,11 +40,11 @@ function App() {
           <Route path="logout" element={<Logout />} />
         </Route>
 
-        {/* <Route path={`/${ROLE_LECTURER}`} element={<StudentLayout />}>
-          <Route index element={<StudentDashboard />} />
-          
+        <Route path={`/${ROLE_LECTURER}`} element={<LecturerLayout />}>
+          <Route index element={<LecturerDashboard />} />
+          <Route path="lec-classes" element={<LecturerClasses />} />
           <Route path="logout" element={<Logout />} />
-        </Route> */}
+        </Route>
 
         <Route path='*' element={<FourZeroFour />} />
       </Routes>
