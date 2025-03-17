@@ -25,7 +25,7 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (user.role) {
-        const role = user.role
+            const role = user.role
             switch (role) {
                 case ROLE_STUDENT:
                     navigate(`/${ROLE_STUDENT}`)
@@ -42,14 +42,14 @@ const LoginPage = () => {
     }, [user.role])
 
     return (
-        <div className='bg-not-white flex justify-center items-center w-[100vw] h-[100vh]'>
-            <div className='w-3/4 bg-white h-[85%] flex gap-12'>
-                <div className='flex justify-center items-center bg-hero-login bg-cover w-1/2'>
+        <div className='bg-not-white font-poppins flex justify-center items-center w-[100vw] h-[100vh]'>
+            <div className='w-3/4 bg-white rounded-2xl h-[85%] flex gap-12'>
+                <div className='flex bg-gradient-to-r rounded-2xl from-blue-600 to-bright-yellow justify-center items-center bg-cover w-1/2'>
                     <div className='w-[270px] h-[240px] rounded-lg backdrop-blur-md bg-white/20 p-6 text-center max-w-md flex flex-col justify-center items-center'>
                         <p className="text-white text-lg font-semibold">
                             Connecting <br /> Teachers, Inspiring <br /> Students with{" "}
-                            <span className="text-blue-500 font-bold">Sc</span>
-                            <span className="text-red-500 font-bold">Learn.</span>
+                            <span className="text-bright-yellow font-bold">Sc</span>
+                            <span className="text-logo-blue font-bold">Learn.</span>
                         </p>
                         <p className="text-white text-sm mt-2">
                             Transforming Education, One <br /> Click at a Time.
@@ -58,9 +58,9 @@ const LoginPage = () => {
                 </div>
 
                 <form onSubmit={handleLogin} className='flex flex-col items-center justify-center w-1/2 relative px-[24px] py-8 gap-5 '>
-                    <img src={Logo} className='w-[4.5rem] absolute top-5 right-5' />
-                    
-                    <h2 className='text-center font-bold text-darkest-blue'>Login</h2>
+                    <img src={Logo} className='w-[5rem] absolute top-5 right-5' />
+
+                    <h2 className='text-center text-2xl font-bold text-dark-blue'>Login</h2>
 
                     <div className='w-full flex flex-col gap-4 pr-6'>
                         <fieldset className="flex flex-col gap-3">
@@ -103,7 +103,7 @@ const LoginPage = () => {
                             </div>
                         </fieldset>
 
-                        <Link to='/#' className="text-sm pt-2 text-blue-500 hover:underline">
+                        <Link to='/#' className="text-sm pt-2 text-dark-blue hover:underline">
                             Forgot Password?
                         </Link>
                     </div>
@@ -115,10 +115,10 @@ const LoginPage = () => {
                         className="w-[60%] text-white font-medium py-2 rounded-lg bg-soft-pink transition">
                             Sign Up
                         </button> */}
-                        <button 
-                        type='submit' 
-                        // disabled={isLoading}  // button disabled while api fetches
-                        className="w-[60%] text-white font-medium py-2 rounded-lg bg-soft-pink transition">
+                        <button
+                            type='submit'
+                            // disabled={isLoading}  // button disabled while api fetches
+                            className="w-[60%] text-white font-medium py-2 rounded-lg bg-dark-blue transition">
                             Login
                         </button>
                     </div>

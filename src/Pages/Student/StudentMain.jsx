@@ -10,7 +10,6 @@ const posts = [
 
 const StudentMain = () => {
     return (
-
         <div className="bg-white font-poppins rounded-xl h-full w-full max-h-screen flex flex-col">
             {/* Header - stays fixed at the top of this card */}
             <div className="bg-cover bg-class-background bg-center rounded-t-xl relative h-[190px] flex items-end p-6 flex-shrink-0">
