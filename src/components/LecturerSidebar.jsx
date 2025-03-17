@@ -30,7 +30,7 @@ const LecturerSidebar = () => {
                         </li>
 
                         <li>
-                            <Link to="/lecturer/lecturer-classes" className="flex items-center gap-2 px-5 py-2 pl-4 rounded-md 
+                            <Link to="/lecturer/lec-classes" className="flex items-center gap-2 px-5 py-2 pl-4 rounded-md 
                                 hover:bg-soft-blue hover:text-white transition-colors duration-200 cursor-pointer
                                 active:bg-soft-blue active:text-white">
                                 <img src={BookIcon} alt="Classes" />
