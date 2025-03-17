@@ -44,7 +44,7 @@ const LoginPage = () => {
     return (
         <div className='bg-not-white font-poppins flex justify-center items-center w-[100vw] h-[100vh]'>
             <div className='w-3/4 bg-white rounded-2xl h-[85%] flex gap-12'>
-                <div className='flex bg-gradient-to-r rounded-2xl from-blue-600 to-bright-yellow justify-center items-center bg-cover w-1/2'>
+                <div className='flex bg-gradient-to-r rounded-2xl from-light-blue to-bright-yellow justify-center items-center bg-cover w-1/2'>
                     <div className='w-[270px] h-[240px] rounded-lg backdrop-blur-md bg-white/20 p-6 text-center max-w-md flex flex-col justify-center items-center'>
                         <p className="text-white text-lg font-semibold">
                             Connecting <br /> Teachers, Inspiring <br /> Students with{" "}
@@ -60,7 +60,7 @@ const LoginPage = () => {
                 <form onSubmit={handleLogin} className='flex flex-col items-center justify-center w-1/2 relative px-[24px] py-8 gap-5 '>
                     <img src={Logo} className='w-[5rem] absolute top-5 right-5' />
 
-                    <h2 className='text-center text-2xl font-bold text-dark-blue'>Login</h2>
+                    <h2 className='text-center text-2xl font-bold text-light-blue'>Login</h2>
 
                     <div className='w-full flex flex-col gap-4 pr-6'>
                         <fieldset className="flex flex-col gap-3">
