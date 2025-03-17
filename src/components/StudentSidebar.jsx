@@ -99,10 +99,10 @@ const StudentSidebar = () => {
                                     max-h-32 overflow-y-auto space-y-1 hide-scrollbar">
                                         {item.dropdownNav?.map((item, id) => (
                                             <li key={id}>
-                                            <Link to={item.path} className="flex items-center gap-2 pl-1 py-1 cursor-pointer 
+                                                <Link to={item.path} className="flex items-center gap-2 pl-1 py-1 cursor-pointer 
                                             hover:bg-soft-blue rounded-md transition-colors">
-                                                <div className="bg-dark-blue rounded-full w-8 h-8" /> {item.label}
-                                            </Link>
+                                                    <div className="bg-dark-blue rounded-full w-8 h-8" /> {item.label}
+                                                </Link>
                                             </li>
                                         ))}
                                     </ul>

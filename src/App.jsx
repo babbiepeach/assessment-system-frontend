@@ -13,14 +13,17 @@ import Logout from "./Pages/Logout";
 
 // student pages
 import StudentAssignment from "./Pages/Student/StudentAssignment.jsx";
+import AssignmentView from "./Pages/Student/AssignmentView.jsx";
 import StudentNotification from "./Pages/Student/StudentNotification.jsx";
 import StudentClasses from "./Pages/Student/StudentClasses.jsx";
 import ClassCode from "./Pages/Student/ClassCode.jsx"
 import StudentDashboard from "./Pages/Student/StudentDashboard.jsx";
+import StudentMain from "./Pages/Student/StudentMain.jsx";
 
 // lecturer pages
 import LecturerDashboard from "./Pages/Lecturer/LecturerDashboard.jsx";
 import LecturerClasses from "./Pages/Lecturer/LecturerClasses.jsx";
+import CreateClass from "./Pages/Lecturer/CreateClass.jsx";
 
 const HomePage = lazy(() => import('./Pages/HomePage.jsx'))
 
@@ -35,7 +38,9 @@ function App() {
           <Route index element={<StudentDashboard />} />
           <Route path="join-class" element={<ClassCode />} />
           <Route path="classes" element={<StudentClasses />} />
+          <Route path="student-main" element={<StudentMain />} />
           <Route path="assignments" element={<StudentAssignment />} />
+          <Route path="view-assignment" element={<AssignmentView />} />
           <Route path="notifications" element={<StudentNotification />} />
           <Route path="logout" element={<Logout />} />
         </Route>
@@ -43,6 +48,7 @@ function App() {
         <Route path={`/${ROLE_LECTURER}`} element={<LecturerLayout />}>
           <Route index element={<LecturerDashboard />} />
           <Route path="lec-classes" element={<LecturerClasses />} />
+          <Route path="create-class" element={<CreateClass />} />
           <Route path="logout" element={<Logout />} />
         </Route>
 
