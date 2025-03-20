@@ -12,7 +12,7 @@ const StudentLayout = () => {
     };
 
     return (
-        <div className="flex h-screen w-full">
+        <div className="flex h-screen fixed w-full">
             <div>
                 {showSidebar && (
                     <StudentSidebar />
