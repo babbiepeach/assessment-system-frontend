@@ -24,6 +24,11 @@ import StudentMain from "./Pages/Student/StudentMain.jsx";
 import LecturerDashboard from "./Pages/Lecturer/LecturerDashboard.jsx";
 import LecturerClasses from "./Pages/Lecturer/LecturerClasses.jsx";
 import CreateClass from "./Pages/Lecturer/CreateClass.jsx";
+import Classmain from "./Pages/Lecturer/Classmain.jsx";
+import ClassAssignment from "./Pages/Lecturer/ClassAssignment.jsx";
+import CreateAssignment from "./Pages/Lecturer/CreateAss.jsx";
+import ClassGrades from "./Pages/Lecturer/ClassGrades.jsx";
+import ClassHistory from "./Pages/Lecturer/ClassHistory.jsx";
 
 const HomePage = lazy(() => import('./Pages/HomePage.jsx'))
 
@@ -47,8 +52,13 @@ function App() {
 
         <Route path={`/${ROLE_LECTURER}`} element={<LecturerLayout />}>
           <Route index element={<LecturerDashboard />} />
-          <Route path="lec-classes" element={<LecturerClasses />} />
           <Route path="create-class" element={<CreateClass />} />
+          <Route path="lec-classes" element={<LecturerClasses />} />
+          <Route path="class-main" element={<Classmain />} />
+          <Route path="class-assignment" element={<ClassAssignment />} />
+          <Route path="create-assignment" element={<CreateAssignment />} />
+          <Route path="class-grade" element={<ClassGrades />} />
+          <Route path="class-history" element={<ClassHistory />} />
           <Route path="logout" element={<Logout />} />
         </Route>
 
