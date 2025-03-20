@@ -2,10 +2,10 @@ import axios from "axios";
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { setError, setSuccess } from '../slices/message-slice';
 import { setCredentials } from '../slices/auth-slice';
-import { baseUrl } from "../base-url";
+import { backendBaseUrl } from "../base-url";
 
 const rawBaseQuery = fetchBaseQuery({
-  baseUrl: baseUrl,
+  baseUrl: backendBaseUrl,
   prepareHeaders: (headers, { getState }) => {
     const token = getState()?.auth?.user?.accessToken
     if (token) {
