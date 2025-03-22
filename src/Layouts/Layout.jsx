@@ -19,15 +19,19 @@ const Layout = () => {
     return (
         <div className="flex h-screen fixed w-full">
             <div>
-                {user?.role?.toLowerCase === ROLE_STUDENT && (
-                    showSidebar && (
-                        <StudentSidebar />
-                    )
+                {user?.role?.toLowerCase() === ROLE_STUDENT && (
+                    <React.Fragment>
+                        {showSidebar && (
+                            <StudentSidebar />
+                        )}
+                    </React.Fragment>
                 )}
-                {user?.role?.toLowerCase === ROLE_LECTURER && (
-                    showSidebar && (
-                        <LecturerSidebar />
-                    )
+                {user?.role?.toLowerCase() === ROLE_LECTURER && (
+                    <React.Fragment>
+                        {showSidebar && (
+                            <LecturerSidebar />
+                        )}
+                    </React.Fragment>
                 )}
             </div>
 
