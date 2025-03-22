@@ -3,12 +3,32 @@ import Notify from "/src/assets/notify.png";
 import { useGetNotificationsQuery, useMarkNotificationAsReadMutation } from "../redux/apis/api-slice";
 import dayjs from "dayjs";
 
-const StudentNotification = () => {
+const Notification = () => {
     const [selectedNotification, setSelectedNotification] = useState(null);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     const { data: notifications, isLoading } = useGetNotificationsQuery()
     const [readNotification] = useMarkNotificationAsReadMutation()
+
+    const getTimeAgo = (dateString) => {
+        const now = dayjs(); 
+        const pastDate = dayjs(dateString); 
+    
+        const diffInSeconds = now.diff(pastDate, "second");
+        const diffInMinutes = now.diff(pastDate, "minute");
+        const diffInHours = now.diff(pastDate, "hour");
+        const diffInDays = now.diff(pastDate, "day");
+    
+        if (diffInSeconds < 60) {
+            return `${diffInSeconds} ${diffInSeconds === 1 ? "second" : "seconds"} ago`;
+        } else if (diffInMinutes < 60) {
+            return `${diffInMinutes} ${diffInMinutes === 1 ? "minute" : "minutes"} ago`;
+        } else if (diffInHours < 24) {
+            return `${diffInHours} ${diffInHours === 1 ? "hour" : "hours"} ago`;
+        } else {
+            return `${diffInDays} ${diffInDays === 1 ? "day" : "days"} ago`;
+        }
+    };
 
     const openSidebar = (notification) => {
         setSelectedNotification(notification);
@@ -56,7 +76,7 @@ const StudentNotification = () => {
                                     {notification?.message}
                                 </p>
                             </div>
-                            <p className="text-sm text-gray-500">{dayjs(notification?.createdAt).format('MMM D, YYYY')}</p>
+                            <p className="text-sm text-gray-500">{getTimeAgo(notification?.createdAt)}</p>
                         </div>
                     ))}
                 </div>
@@ -94,4 +114,4 @@ const StudentNotification = () => {
     );
 };
 
-export default StudentNotification;
+export default Notification;

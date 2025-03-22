@@ -41,10 +41,9 @@ export const assignmentTypes = [
 export const getInitials = (name) => {
     if (!name) return "EA";
 
-    const [firstName, lastName] = name.split(" ").map(part => part.trim());
+    const nameParts = name.split(" ").filter(part => part.trim() !== ""); // Remove empty strings
+    const firstNameInitial = nameParts[0] ? nameParts[0][0] : "E";
+    const lastNameInitial = nameParts.length > 1 ? nameParts[nameParts.length - 1][0] : "A"; // Get last valid word
 
-    const firstNameInitial = firstName ? firstName[0] : "E";
-    const lastNameInitial = lastName ? lastName[0] : "A";
-
-    return `${firstNameInitial}${lastNameInitial}`;
+    return `${firstNameInitial}${lastNameInitial}`.toLocaleUpperCase();
 };
