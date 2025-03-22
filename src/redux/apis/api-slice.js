@@ -205,13 +205,13 @@ export const apiSlice = createApi({
     }),
     joinClass: builder.mutation({ // for student
       query: ({ studentId, classCode }) => ({
-        url: `/classes/create`,
+        url: `/classes/join`,
         method: 'POST',
         headers: {
           'content-type': 'application/json'
         },
         body: JSON.stringify({
-          studentId,
+          // studentId,
           classCode,
         }),
       }),

@@ -15,7 +15,7 @@ import Notification from "./common-components/Notification.jsx";
 import StudentAssignment from "./Pages/Student/StudentAssignment.jsx";
 import AssignmentView from "./Pages/Student/AssignmentView.jsx";
 import StudentClasses from "./Pages/Student/StudentClasses.jsx";
-import ClassCode from "./Pages/Student/ClassCode.jsx"
+import JoinClass from "./Pages/Student/JoinClass.jsx"
 import StudentDashboard from "./Pages/Student/StudentDashboard.jsx";
 import StudentMain from "./Pages/Student/StudentMain.jsx";
 
@@ -60,8 +60,8 @@ function App() {
         <Route element={<RouteGuard allowedRole={ROLE_STUDENT} />}>
           <Route path={`/${ROLE_STUDENT}`} element={<Layout />}>
             <Route index element={<StudentDashboard />} />
-            <Route path="join-class" element={<ClassCode />} />
             <Route path="classes" element={<StudentClasses />} />
+            <Route path="classes/join-class" element={<JoinClass />} />
             <Route path="student-main" element={<StudentMain />} />
             <Route path="assignments" element={<StudentAssignment />} />
             <Route path="view-assignment" element={<AssignmentView />} />
@@ -72,9 +72,9 @@ function App() {
         <Route element={<RouteGuard allowedRole={ROLE_LECTURER} />}>
           <Route path={`/${ROLE_LECTURER}`} element={<Layout />}>
             <Route index element={<LecturerDashboard />} />
-            <Route path="create-class" element={<CreateClass />} />
-            <Route path="lec-classes" element={<LecturerClasses />} />
-            <Route path="lec-classes/class" element={<ClassView />} />
+            <Route path="classes" element={<LecturerClasses />} />
+            <Route path="classes/create-class" element={<CreateClass />} />
+            <Route path="classes/class" element={<ClassView />} />
             <Route path="class-assignment" element={<ClassAssignment />} />
             <Route path="create-assignment" element={<CreateAssignment />} />
             <Route path="class-grade" element={<ClassGrades />} />
