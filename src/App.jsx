@@ -6,8 +6,7 @@ import { clearError, clearSuccess } from './redux/slices/message-slice'
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.jsx'
 import FourZeroFour from './components/ErrorBoundary/FourZeroFour.jsx'
 
-import StudentLayout from "./Layouts/StudentLayout";
-import LecturerLayout from "./Layouts/LecturerLayout"
+import Layout from "./Layouts/Layout.jsx";
 
 // student pages
 import StudentAssignment from "./Pages/Student/StudentAssignment.jsx";
@@ -57,7 +56,7 @@ function App() {
     return (
       <Routes>
         <Route element={<RouteGuard allowedRole={ROLE_STUDENT} />}>
-          <Route path={`/${ROLE_STUDENT}`} element={<StudentLayout />}>
+          <Route path={`/${ROLE_STUDENT}`} element={<Layout />}>
             <Route index element={<StudentDashboard />} />
             <Route path="join-class" element={<ClassCode />} />
             <Route path="classes" element={<StudentClasses />} />
@@ -69,7 +68,7 @@ function App() {
         </Route>
 
         <Route element={<RouteGuard allowedRole={ROLE_LECTURER} />}>
-          <Route path={`/${ROLE_LECTURER}`} element={<LecturerLayout />}>
+          <Route path={`/${ROLE_LECTURER}`} element={<Layout />}>
             <Route index element={<LecturerDashboard />} />
             <Route path="create-class" element={<CreateClass />} />
             <Route path="lec-classes" element={<LecturerClasses />} />
