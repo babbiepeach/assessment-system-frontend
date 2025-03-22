@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { ROLE_STUDENT } from '../redux/utils';
+import { getInitials, ROLE_STUDENT } from '../redux/utils';
 
 import BellIcon from '../assets/bell.png';
 import BookIcon from '../assets/book.png';
@@ -29,16 +29,6 @@ const StudentSidebar = () => {
         }
     }, [user])
 
-    const getInitials = (name) => {
-        if (!name) return "EA";
-
-        const [firstName, lastName] = name.split(" ").map(part => part.trim());
-
-        const firstNameInitial = firstName ? firstName[0] : "E";
-        const lastNameInitial = lastName ? lastName[0] : "A";
-
-        return `${firstNameInitial}${lastNameInitial}`;
-    }
     const initials = getInitials(userDetails?.fullName);
 
     const navItems = [

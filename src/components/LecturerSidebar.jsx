@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { ROLE_LECTURER } from '../redux/utils';
+import { getInitials, ROLE_LECTURER } from '../redux/utils';
 
-import BookIcon from '/src/assets/book.png';
-import HomeIcon from '/src/assets/Home.png';
+import BellIcon from '../assets/bell.png';
+import BookIcon from '../assets/book.png';
+import HomeIcon from '../assets/Home.png';
+import PenIcon from '../assets/pen.png';
 import LogOutIcon from '/src/assets/logout.png';
 
 import { resetStorageSlice } from '../redux/slices/storage-slice';
@@ -25,21 +27,14 @@ const LecturerSidebar = () => {
         }
     }, [user])
 
-    const getInitials = (name) => {
-        if (!name) return "EA";
-
-        const [firstName, lastName] = name.split(" ").map(part => part.trim());
-
-        const firstNameInitial = firstName ? firstName[0] : "E";
-        const lastNameInitial = lastName ? lastName[0] : "A";
-
-        return `${firstNameInitial}${lastNameInitial}`;
-    }
     const initials = getInitials(userDetails?.fullName);
 
     const navItems = [
         { name: 'Home', path: `/${ROLE_LECTURER}`, icon: HomeIcon },
-        { name: 'Classes', path: `/${ROLE_LECTURER}/classes`, icon: BookIcon },
+        { name: 'Classes', path: `/${ROLE_LECTURER}/lec-classes`, icon: BookIcon },
+        { name: 'Assignments', path: `/${ROLE_LECTURER}/lec-classes`, icon: PenIcon },
+        { name: 'Similarity Checker', path: `/${ROLE_LECTURER}/lec-classes`, icon: PenIcon },
+        { name: 'Notifications', path: `/${ROLE_LECTURER}/lec-classes`, icon: BellIcon },
     ]
 
     const handleLogout = () => {

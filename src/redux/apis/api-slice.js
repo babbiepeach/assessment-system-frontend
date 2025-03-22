@@ -1,8 +1,9 @@
 import axios from "axios";
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { setError, setSuccess } from '../slices/message-slice';
-import { setCredentials, setUserDetails } from '../slices/auth-slice';
+import { logout, setCredentials, setUserDetails } from '../slices/auth-slice';
 import { aiBaseUrl, backendBaseUrl } from "../base-url";
+import { resetStorageSlice } from "../slices/storage-slice";
 
 const rawBaseQuery = fetchBaseQuery({
   baseUrl: backendBaseUrl,
@@ -21,7 +22,10 @@ export const apiSlice = createApi({
   keepUnusedDataFor: 10,
   refetchOnMountOrArgChange: 5,
   refetchOnReconnect: true,
-  tagTypes: ['users', 'class'],
+  tagTypes: [
+    'users',
+    'class', 'class-students'
+  ],
   endpoints: (builder) => ({
     // auth-apis
     register: builder.mutation({
@@ -70,7 +74,7 @@ export const apiSlice = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { meta, data } = await queryFulfilled;
-          
+
           if (data) {
             dispatch(setCredentials(data))
           }
@@ -95,11 +99,16 @@ export const apiSlice = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { meta, data } = await queryFulfilled;
-          
+
           if (data) {
             dispatch(setUserDetails(data))
           }
         } catch (error) {
+          if (error?.message == 'jwt token expired') {
+            dispatch(logout())
+            dispatch(resetStorageSlice())
+          }
+
           dispatch(
             setError(
               error?.message
@@ -147,7 +156,7 @@ export const apiSlice = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { meta, data } = await queryFulfilled;
-          
+
           if (data) {
             dispatch(setSuccess(data?.message));
           }
@@ -172,7 +181,7 @@ export const apiSlice = createApi({
           'content-type': 'application/json'
         },
         body: JSON.stringify({
-          teacherId,
+          // teacherId,
           name: className,
           description: classDesc,
         }),
@@ -225,7 +234,7 @@ export const apiSlice = createApi({
       },
       invalidatesTag: ['class']
     }),
-    getClassesForStudent: builder.query({
+    getAllClasses: builder.query({
       query: () => ({
         url: '/classes/my-classes',
         method: 'GET',
@@ -234,6 +243,103 @@ export const apiSlice = createApi({
         },
       }),
       providesTags: ['classes']
+    }),
+    getStudentsInClass: builder.query({ // for teacher
+      query: ({ id }) => ({
+        url: `/classes/${id}/students`,
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json'
+        },
+      }),
+      providesTags: ['class-students']
+    }),
+    deleteClass: builder.mutation({ // for teacher
+      query: ({ id }) => ({
+        url: `/classes/${id}`,
+        method: 'DELETE',
+        headers: {
+          'content-type': 'application/json'
+        },
+        // body: JSON.stringify({
+        //   id
+        // }),
+      }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { meta, data } = await queryFulfilled;
+
+          if (data) {
+            dispatch(setSuccess(data?.message));
+          }
+        } catch (error) {
+          dispatch(
+            setError(
+              error?.message
+              || error?.error?.data?.message
+              || 'Something went wrong')
+          );
+        }
+      },
+      invalidatesTag: ['class']
+    }),
+    deactivateClass: builder.mutation({ // for teacher
+      query: ({ id }) => ({
+        url: `/classes/${id}/deactivate`,
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
+        // body: JSON.stringify({
+        //   id
+        // }),
+      }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { meta, data } = await queryFulfilled;
+
+          if (data) {
+            dispatch(setSuccess(data?.message));
+          }
+        } catch (error) {
+          dispatch(
+            setError(
+              error?.message
+              || error?.error?.data?.message
+              || 'Something went wrong')
+          );
+        }
+      },
+      invalidatesTag: ['class']
+    }),
+    removeStudentFromClass: builder.mutation({ // for teacher
+      query: ({ id, studentId }) => ({
+        url: `/classes/${id}/remove-student/${studentId}`,
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
+        // body: JSON.stringify({
+        //   id
+        // }),
+      }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { meta, data } = await queryFulfilled;
+
+          if (data) {
+            dispatch(setSuccess(data?.message));
+          }
+        } catch (error) {
+          dispatch(
+            setError(
+              error?.message
+              || error?.error?.data?.message
+              || 'Something went wrong')
+          );
+        }
+      },
+      invalidatesTag: ['class']
     }),
   }),
 });
@@ -250,6 +356,13 @@ export const {
   useDeleteUserMutation,
 
   // class-apis
+  useCreateClassMutation,
+  useJoinClassMutation,
+  useGetAllClassesQuery,
+  useGetStudentsInClassQuery,
+  useDeleteClassMutation,
+  useDeactivateClassMutation,
+  useRemoveStudentFromClassMutation,
 } = apiSlice;
 
 
