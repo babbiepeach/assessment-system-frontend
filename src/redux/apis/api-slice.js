@@ -1,13 +1,13 @@
 import axios from "axios";
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { setError, setSuccess } from '../slices/message-slice';
-import { setCredentials } from '../slices/auth-slice';
-import { backendBaseUrl } from "../base-url";
+import { setCredentials, setUserDetails } from '../slices/auth-slice';
+import { aiBaseUrl, backendBaseUrl } from "../base-url";
 
 const rawBaseQuery = fetchBaseQuery({
   baseUrl: backendBaseUrl,
   prepareHeaders: (headers, { getState }) => {
-    const token = getState()?.auth?.user?.accessToken
+    const token = getState()?.auth?.accessToken
     if (token) {
       headers.set('authorization', `Bearer ${token}`)
       return headers
@@ -23,16 +23,20 @@ export const apiSlice = createApi({
   refetchOnReconnect: true,
   tagTypes: [],
   endpoints: (builder) => ({
-    login: builder.mutation({
-      query: ({ username, authCode }) => ({
-        url: '/auth/login',
+    //authentication
+    register: builder.mutation({
+      query: ({ fullName, matricOrStaffId, email, password, role }) => ({
+        url: '/auth/register',
         method: 'POST',
         headers: {
           'content-type': 'application/json'
         },
         body: JSON.stringify({
-          username: username,
-          authCode: authCode,
+          fullName,
+          matricOrStaffId,
+          email,
+          password,
+          role
         }),
       }),
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
@@ -40,8 +44,7 @@ export const apiSlice = createApi({
           const { meta, data } = await queryFulfilled;
           const { data: savedData, message, status } = data || {};
 
-          if (status === 200 && !savedData.code) {
-            dispatch(setCredentials(savedData))
+          if (status === 201) {
             dispatch(setSuccess(message));
           }
         } catch (error) {
@@ -54,10 +57,40 @@ export const apiSlice = createApi({
         }
       },
     }),
-    logout: builder.query({
+    login: builder.mutation({
+      query: ({ matricOrStaffId, password }) => ({
+        url: '/auth/login',
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          matricOrStaffId,
+          password,
+        }),
+      }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { meta, data } = await queryFulfilled;
+          const { data: savedData, message, status } = data || {};
+
+          if (status === 200 && !savedData.code) {
+            dispatch(setCredentials(savedData))
+          }
+        } catch (error) {
+          dispatch(
+            setError(
+              error?.message
+              || error?.error?.data?.message
+              || 'Something went wrong')
+          );
+        }
+      },
+    }),
+    profile: builder.mutation({
       query: () => ({
-        url: '/auth/logout',
-        method: 'GET',
+        url: '/auth/profile',
+        method: 'POST',
         headers: {
           'content-type': 'application/json'
         },
@@ -67,8 +100,8 @@ export const apiSlice = createApi({
           const { meta, data } = await queryFulfilled;
           const { data: savedData, message, status } = data || {};
 
-          if (status === 200) {
-            dispatch(setSuccess(message))
+          if (status === 200 && !savedData.code) {
+            dispatch(setUserDetails(savedData))
           }
         } catch (error) {
           dispatch(
@@ -82,4 +115,31 @@ export const apiSlice = createApi({
     }),
   }),
 });
-export const { useLoginMutation, useLazyLogoutQuery } = apiSlice;
+
+export const { 
+  //authentication
+  useRegisterMutation,
+  useLoginMutation, 
+  useProfileMutation,
+} = apiSlice;
+
+
+export const aiCheckSlice = createApi({
+  reducerPath: 'aiCheckSlice',
+  baseQuery: async ({ url, method, body, headers }) => {
+    const fullUrl = `${aiBaseUrl}${url}`;
+    try {
+      const response = await axios({
+        method,
+        url: fullUrl,
+        data: body,
+        headers,
+      });
+      return { data: response.data };
+    } catch (error) {
+      throw { message: error?.response?.data?.message };
+    }
+  },
+  tagTypes: ['aiCheckSlice'],
+  endpoints: (builder) => ({}),
+});

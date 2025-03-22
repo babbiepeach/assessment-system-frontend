@@ -6,10 +6,8 @@ import { clearError, clearSuccess } from './redux/slices/message-slice'
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.jsx'
 import FourZeroFour from './components/ErrorBoundary/FourZeroFour.jsx'
 
-import LoginPage from "./Pages/LoginPage.jsx";
 import StudentLayout from "./Layouts/StudentLayout";
 import LecturerLayout from "./Layouts/LecturerLayout"
-import Logout from "./Pages/Logout";
 
 // student pages
 import StudentAssignment from "./Pages/Student/StudentAssignment.jsx";
@@ -30,7 +28,7 @@ import CreateAssignment from "./Pages/Lecturer/CreateAss.jsx";
 import ClassGrades from "./Pages/Lecturer/ClassGrades.jsx";
 import ClassHistory from "./Pages/Lecturer/ClassHistory.jsx";
 
-const HomePage = lazy(() => import('./Pages/HomePage.jsx'))
+const LoginPage = lazy(() => import('./Pages/LoginPage.jsx'))
 
 function App() {
   const { error, success, message } = useSelector(state => state.message)
@@ -47,7 +45,6 @@ function App() {
           <Route path="assignments" element={<StudentAssignment />} />
           <Route path="view-assignment" element={<AssignmentView />} />
           <Route path="notifications" element={<StudentNotification />} />
-          <Route path="logout" element={<Logout />} />
         </Route>
 
         <Route path={`/${ROLE_LECTURER}`} element={<LecturerLayout />}>
@@ -59,7 +56,6 @@ function App() {
           <Route path="create-assignment" element={<CreateAssignment />} />
           <Route path="class-grade" element={<ClassGrades />} />
           <Route path="class-history" element={<ClassHistory />} />
-          <Route path="logout" element={<Logout />} />
         </Route>
 
         <Route path='*' element={<FourZeroFour />} />
@@ -76,8 +72,7 @@ function App() {
       }>
         <Router>
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LoginPage />} />
+            <Route path="/" element={<LoginPage />} />
 
             <Route path='/*' element={<PrivateRoutes />} />
             <Route path='*' element={<FourZeroFour />} />
