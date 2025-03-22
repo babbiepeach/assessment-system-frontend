@@ -26,7 +26,7 @@ import LecturerClasses from "./Pages/Lecturer/LecturerClasses.jsx";
 import CreateClass from "./Pages/Lecturer/CreateClass.jsx";
 import Classmain from "./Pages/Lecturer/Classmain.jsx";
 import ClassAssignment from "./Pages/Lecturer/ClassAssignment.jsx";
-import CreateAssignment from "./Pages/Lecturer/CreateAss.jsx";
+import CreateAssignment from "./Pages/Lecturer/CreateAssignment.jsx";
 import ClassGrades from "./Pages/Lecturer/ClassGrades.jsx";
 import ClassHistory from "./Pages/Lecturer/ClassHistory.jsx";
 
@@ -56,12 +56,12 @@ function App() {
           <Route path="lec-classes" element={<LecturerClasses />} />
           <Route path="class-main" element={<Classmain />} />
           <Route path="class-assignment" element={<ClassAssignment />} />
-          <Route path="create-assignment" element={<CreateAssignment />} />
           <Route path="class-grade" element={<ClassGrades />} />
           <Route path="class-history" element={<ClassHistory />} />
           <Route path="logout" element={<Logout />} />
         </Route>
 
+        <Route path="create-assignment" element={<CreateAssignment />} />
         <Route path='*' element={<FourZeroFour />} />
       </Routes>
     )

@@ -1,35 +1,37 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const ClassCode = () => {
-    const [classCode, setClassCode] = useState(null)
+    const [classCode, setClassCode] = useState('');
 
-    // const { user } = useSelector(state => state.auth)
+    const handleJoin = () => {
+        const existingClasses = JSON.parse(localStorage.getItem('createdClasses')) || [];
+        const foundClass = existingClasses.find(cls => cls.code === classCode);
+
+        if (foundClass) {
+            window.location.href = `/student/classes?code=${foundClass.code}&name=${foundClass.name}`;
+        } else {
+            alert("Class code not found!");
+        }
+    };
+
     const user = {
-        name:'Taiwo George-Taylor', 
+        name: 'Taiwo George-Taylor',
         email: 'taiwogeorgetaylor.gt@gmail.com'
-    }
-
-    const handleSubmitCode = (e) => {
-        e.preventDefault()
-        console.log(classCode)
-    }
+    };
 
     return (
         <div className='bg-white rounded-xl flex justify-center items-center h-[100%] w-[100%] font-poppins'>
-            <form onSubmit={handleSubmitCode} className='flex flex-col justify-center border border-light-gray h-[80%] rounded-xl w-[37%] p-6 '>
+            <form className='flex flex-col justify-center border border-light-gray h-[80%] rounded-xl w-[37%] p-6 '>
                 <h2 className="text-xl font-semibold mb-4">Join Class</h2>
 
                 <div className="border rounded-lg p-4 mb-4 bg-gray-50">
                     <p className="text-sm text-gray-600">You're currently signed in as</p>
                     <div className="flex items-center gap-3 mt-2">
-
                         <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
                         <div>
                             <p className="font-semibold text-gray-800">{user.name}</p>
-                            <p className="text-sm text-gray-500">
-                                {user.email}
-                            </p>
+                            <p className="text-sm text-gray-500">{user.email}</p>
                         </div>
                     </div>
                 </div>
@@ -44,19 +46,27 @@ const ClassCode = () => {
                         placeholder="Class Code"
                         className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500"
                         onChange={(e) => setClassCode(e.target.value)}
+                        value={classCode}
+                        required
                     />
                 </div>
 
-
                 <div className="flex justify-between">
-                    <button className="text-red-500 font-medium">Cancel</button>
-                    <button type='submit' className="bg-gray-300 text-gray-500 px-4 py-2 rounded-lg cursor-not-allowed">
+                    <button type="button" className="text-red-500 font-medium">
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleJoin}
+                        className={`px-4 py-2 rounded-lg ${classCode ? 'bg-light-blue text-white' : 'bg-gray-300 text-gray-600 cursor-not-allowed'}`}
+                        disabled={!classCode}
+                    >
                         Join
                     </button>
                 </div>
             </form>
         </div>
-    )
-}
+    );
+};
 
-export default ClassCode
+export default ClassCode;

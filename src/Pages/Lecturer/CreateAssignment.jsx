@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import ClassNavbar from '../../components/ClassNavbar';
+import { Link, useNavigate } from 'react-router-dom';
 
-const CreateAss = () => {
-    const navigate = useNavigate();
+const CreateAssignment = () => {
     const [formData, setFormData] = useState({
         title: '',
         instructions: '',
+        file: null,
         fileName: '',
         points: '',
         dueDate: '',
         topic: '',
     });
+
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -21,20 +22,23 @@ const CreateAss = () => {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            setFormData({ ...formData, fileName: file.name });
+            const fileURL = URL.createObjectURL(file);
+            setFormData({ ...formData, fileName: file.name, file: fileURL });
         }
     };
 
-    const handleSubmit = () => {
-        localStorage.setItem('assignment', JSON.stringify(formData));
-        navigate('/class-assignment');
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const existingAssignments = JSON.parse(localStorage.getItem('assignments')) || [];
+        const newAssignment = { ...formData, id: Date.now() };
+        localStorage.setItem('assignments', JSON.stringify([...existingAssignments, newAssignment]));
+        navigate('/lecturer/class-assignment');
     };
 
     return (
         <div className="flex flex-col h-screen">
-            <ClassNavbar />
-            <div className="flex-1 overflow-y-auto hide-scrollbar p-4 pb-32 bg-gray-50">
-                <div className="bg-white rounded-xl p-8 w-full max-w-5xl mx-auto font-poppins shadow-md">
+            <div className="flex-1 overflow-y-auto hide-scrollbar p-6 pb-32 bg-gray-50">
+                <div className="bg-white rounded-xl p-8 w-full max-w-[100%] mx-auto font-poppins shadow-md">
                     {/* Title */}
                     <div className="mb-6">
                         <label className="block text-lg font-semibold mb-2">Title</label>
@@ -68,15 +72,7 @@ const CreateAss = () => {
                             <label className="flex items-center gap-2 cursor-pointer">
                                 <input type="file" onChange={handleFileChange} className="hidden" />
                                 <div className="bg-gray-100 hover:bg-gray-200 p-4 rounded-lg transition">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-6 w-6 text-gray-700"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12v6m0 0l3-3m-3 3l-3-3m0-4a4 4 0 118 0 4 4 0 01-8 0z" />
-                                    </svg>
+                                    📎
                                 </div>
                                 <span className="text-gray-600">Upload Document</span>
                             </label>
@@ -125,13 +121,20 @@ const CreateAss = () => {
                     </div>
 
                     {/* Submit button */}
-                    <div className="mt-8">
+                    <div className="mt-8 flex gap-4">
                         <button
                             onClick={handleSubmit}
                             className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
                         >
                             Create Assignment
                         </button>
+
+                        <Link
+                            to="/lecturer/class-assignment"
+                            className="text-blue-600 underline self-center"
+                        >
+                            Cancel
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -139,4 +142,5 @@ const CreateAss = () => {
     );
 };
 
-export default CreateAss;
+export default CreateAssignment;
+
