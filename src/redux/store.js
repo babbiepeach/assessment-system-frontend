@@ -21,7 +21,7 @@ import authSlice from "./slices/auth-slice";
 import messageSlice from "./slices/message-slice";
 import storageSlice from "./slices/storage-slice";
 
-import { apiSlice } from "./apis/api-slice";
+import { apiSlice, aiCheckSlice } from "./apis/api-slice";
 
 import { LOCAL_STORAGE_TOKEN } from "./utils"; 
 
@@ -32,6 +32,7 @@ const rootReducer = combineReducers({
   storage: storageSlice,
 
   [apiSlice.reducerPath]: apiSlice.reducer,
+  [aiCheckSlice.reducerPath]: aiCheckSlice.reducer,
 });
 
 const persistConfig = {
@@ -39,9 +40,7 @@ const persistConfig = {
   version: 1,
   storage: localStorage,
   whitelist: ["auth", "message", "storage", ], //whitelist means will be persisted.
-  blocklist: [
-    "apiSlice",
-  ],
+  blocklist: ["apiSlice", "aiCheckSlice"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -55,6 +54,7 @@ export const store = configureStore({
       },
     }).concat([
       apiSlice.middleware,
+      aiCheckSlice.middleware,
       logger,
       thunk,
     ]),

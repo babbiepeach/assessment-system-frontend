@@ -1,1 +1,2 @@
-export const baseUrl = 'http://localhost:8080' // replace with deployed api base url
+export const aiBaseUrl = 'https://plagiarismai-backend.onrender.com/'
+export const backendBaseUrl = 'https://plagiarismai-backend-nestjs.onrender.com/api/v1/'
