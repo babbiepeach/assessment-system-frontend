@@ -1,27 +1,23 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import { useGetAllClassesQuery } from '../../redux/apis/api-slice';
 
 const LecturerClasses = () => {
     const location = useLocation();
     const { className } = location.state || {};
 
-    const classes = [
-        "Modelling and Simulation",
-        "Artificial Intelligence",
-        "Machine Learning",
-        "Database Design",
-        "Compiler Construction",
-        "Computer Architecture",
-    ];
+    const {data: classList, isLoading} = useGetAllClassesQuery()
+
+    const classes = classList?.createdClasses ?? []
 
     if (className) {
-        classes.unshift(className);
+        classes?.unshift(className);
     }
 
     return (
         <div className='bg-white font-poppins rounded-xl h-full w-full px-6 py-8'>
             <div className="flex flex-wrap gap-6 overflow-y-auto max-h-[calc(100vh-150px)] pr-2">
-                {classes.map((cls, idx) => (
+                {classes?.map((cls, idx) => (
                     <Link
                         key={idx}
                         to={`/lecturer/class-main`}

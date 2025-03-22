@@ -24,7 +24,9 @@ export const apiSlice = createApi({
   refetchOnReconnect: true,
   tagTypes: [
     'users',
-    'class', 'class-students'
+    'class', 'class-students',
+    'notifications',
+    'assignments,'
   ],
   endpoints: (builder) => ({
     // auth-apis
@@ -341,6 +343,287 @@ export const apiSlice = createApi({
       },
       invalidatesTag: ['class']
     }),
+
+    // notification-apis
+    getNotifications: builder.query({
+      query: () => ({
+        url: '/notifications/my-notifications',
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json',
+        },
+      }),
+      providesTags: ['notifications'],
+    }),
+    createNotification: builder.mutation({
+      query: ({ userId, message }) => ({
+        url: `/notifications/create`,
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          message,
+        })
+      }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { meta, data } = await queryFulfilled;
+
+          if (data) {
+            dispatch(setSuccess(data?.message));
+          }
+        } catch (error) {
+          dispatch(
+            setError(
+              error?.message
+              || error?.error?.data?.message
+              || 'Something went wrong')
+          );
+        }
+      },
+      invalidatesTag: ['notifications'],
+    }),
+    markNotificationAsRead: builder.mutation({
+      query: ({ id }) => ({
+        url: `/notifications/${id}/read`,
+        method: 'PATCH',
+        headers: {
+          'content-type': 'application/json',
+        },
+      }),
+      invalidatesTag: ['notifications'],
+    }),
+    sendNotificationToUser: builder.mutation({
+      query: ({ userId, message }) => ({
+        url: `/notifications/send-to-user/${userId}`,
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          message,
+        })
+      }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { meta, data } = await queryFulfilled;
+
+          if (data) {
+            dispatch(setSuccess(data?.message));
+          }
+        } catch (error) {
+          dispatch(
+            setError(
+              error?.message
+              || error?.error?.data?.message
+              || 'Something went wrong')
+          );
+        }
+      },
+      invalidatesTag: ['notifications'],
+    }),
+    sendNotificationToClass: builder.mutation({
+      query: ({ classId, title, message }) => ({
+        url: `/notifications/send-to-user/${classId}`,
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          classId,
+          title,
+          message,
+        })
+      }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { meta, data } = await queryFulfilled;
+
+          if (data) {
+            dispatch(setSuccess(data?.message));
+          }
+        } catch (error) {
+          dispatch(
+            setError(
+              error?.message
+              || error?.error?.data?.message
+              || 'Something went wrong')
+          );
+        }
+      },
+      invalidatesTag: ['notifications'],
+    }),
+    deleteNotifications: builder.mutation({
+      query: ({ id }) => ({
+        url: `/notifications/${id}`,
+        method: 'DELETE',
+        headers: {
+          'content-type': 'application/json'
+        },
+        // body: JSON.stringify({
+        //   id
+        // }),
+      }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { meta, data } = await queryFulfilled;
+
+          if (data) {
+            dispatch(setSuccess(data?.message));
+          }
+        } catch (error) {
+          dispatch(
+            setError(
+              error?.message
+              || error?.error?.data?.message
+              || 'Something went wrong')
+          );
+        }
+      },
+      invalidatesTag: ['notifications']
+    }),
+
+    // assignment-apis
+    createAssignment: builder.mutation({
+      query: ({
+        teacherId, title, description, classId,
+        assignmentType, markingGuide, testCases
+      }) => ({
+        url: `/assignments/create`,
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          teacherId,
+          title,
+          description,
+          classId,
+          type: assignmentType,
+          markingGuide,
+          testCases,
+        }),
+      }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { meta, data } = await queryFulfilled;
+
+          if (data) {
+            dispatch(setSuccess(data?.message));
+          }
+        } catch (error) {
+          dispatch(
+            setError(
+              error?.message
+              || error?.error?.data?.message
+              || 'Something went wrong')
+          );
+        }
+      },
+      invalidatesTag: ['assignments'],
+    }),
+    submitAssignment: builder.mutation({
+      query: ({ assignmentId, file }) => {
+        const formData = new FormData()
+        formData.append('assignmentId', assignmentId)
+        formData.append('file', file)
+
+        return {
+          url: `/assignments/${assignmentId}/submit`,
+          method: 'POST',
+          headers: {
+            'content-type': 'multipart/form-data',
+          },
+          body: formData,
+        }
+      },
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { meta, data } = await queryFulfilled;
+
+          if (data) {
+            dispatch(setSuccess(data?.message));
+          }
+        } catch (error) {
+          dispatch(
+            setError(
+              error?.message
+              || error?.error?.data?.message
+              || 'Something went wrong')
+          );
+        }
+      },
+      invalidatesTag: ['assignments'],
+    }),
+    gradeAssignment: builder.mutation({
+      query: ({ submissionId, grade }) => ({
+        url: `/assignments/${submissionId}/grade`,
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({ grade }),
+      }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { meta, data } = await queryFulfilled;
+
+          if (data) {
+            dispatch(setSuccess(data?.message));
+          }
+        } catch (error) {
+          dispatch(
+            setError(
+              error?.message
+              || error?.error?.data?.message
+              || 'Something went wrong')
+          );
+        }
+      },
+      invalidatesTag: ['assignments'],
+    }),
+    checkAssignmentPlagiarism: builder.mutation({
+      query: ({ submissionId }) => ({
+        url: `/assignments/${submissionId}/check-plagiarism`,
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+        // body: JSON.stringify({
+        //   grade
+        // }),
+      }),
+      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        try {
+          const { meta, data } = await queryFulfilled;
+
+          if (data) {
+            dispatch(setSuccess(data?.message));
+          }
+        } catch (error) {
+          dispatch(
+            setError(
+              error?.message
+              || error?.error?.data?.message
+              || 'Something went wrong')
+          );
+        }
+      },
+      invalidatesTag: ['assignments'],
+    }),
+    getAllAssignmentSubmissions: builder.query({
+      query: ({ assignmentId }) => ({
+        url: `/classes/${assignmentId}/assignments`,
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json',
+        },
+      }),
+      providesTags: ['assignments'],
+    }),
   }),
 });
 
@@ -363,6 +646,20 @@ export const {
   useDeleteClassMutation,
   useDeactivateClassMutation,
   useRemoveStudentFromClassMutation,
+
+  // notification-apis
+  useGetNotificationsQuery,
+  useCreateNotificationMutation,
+  useMarkNotificationAsReadMutation,
+  useSendNotificationToUserMutation,
+  useSendNotificationToClassMutation,
+  useDeleteNotificationsMutation,
+
+  // assignment-apis
+  useCreateAssignmentMutation,
+  useSubmitAssignmentMutation,
+  useCheckAssignmentPlagiarismMutation,
+  useGetAllAssignmentSubmissionsQuery,
 } = apiSlice;
 
 

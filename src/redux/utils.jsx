@@ -1,6 +1,6 @@
 export const LOCAL_STORAGE_TOKEN = 'sclearn-store';
 
-// role
+// system user roles
 export const ROLE_STUDENT = 'student';
 export const ROLE_LECTURER = 'teacher';
 
@@ -15,6 +15,29 @@ export const roleList = [
     }
 ];
 
+export const assignmentTypes = [
+    {
+        id: 'MCQ',
+        value: 'Multiple Choice Question',
+    },
+    { 
+        id: 'SHORT_ANSWER',
+        value: 'Short Answer',
+    },
+    {
+        id: 'ESSAY',
+        value: 'Essay',
+    },
+    {
+        id: 'CODE',
+        value: 'Code',
+    },
+    {
+        id: 'GENERAL',
+        value: 'General',
+    },
+];
+
 export const getInitials = (name) => {
     if (!name) return "EA";
 
@@ -24,4 +47,4 @@ export const getInitials = (name) => {
     const lastNameInitial = lastName ? lastName[0] : "A";
 
     return `${firstNameInitial}${lastNameInitial}`;
-}
+};

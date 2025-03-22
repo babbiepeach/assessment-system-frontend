@@ -33,7 +33,6 @@ const CreateClass = ({ setShow }) => {
 
     useEffect(() => {
         if (isSuccess && !isLoading) {
-            setShow(false)
             navigate(`/${ROLE_LECTURER}/lec-classes`)
         }
     }, [isSuccess, isLoading])
