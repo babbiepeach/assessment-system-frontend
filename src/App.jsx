@@ -24,7 +24,7 @@ import LecturerClasses from "./Pages/Lecturer/LecturerClasses.jsx";
 import CreateClass from "./Pages/Lecturer/CreateClass.jsx";
 import Classmain from "./Pages/Lecturer/Classmain.jsx";
 import ClassAssignment from "./Pages/Lecturer/ClassAssignment.jsx";
-import CreateAssignment from "./Pages/Lecturer/CreateAss.jsx";
+import CreateAssignment from "./Pages/Lecturer/CreateAssignment.jsx";
 import ClassGrades from "./Pages/Lecturer/ClassGrades.jsx";
 import ClassHistory from "./Pages/Lecturer/ClassHistory.jsx";
 

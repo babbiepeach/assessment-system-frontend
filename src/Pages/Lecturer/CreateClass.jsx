@@ -16,10 +16,14 @@ const CreateClass = () => {
     };
 
     const handleCreate = () => {
-        if (className.trim() !== '') {
-            navigate('/lecturer/lec-classes', { state: { className } });
+        if (className.trim() !== '' && courseCode.trim() !== '') {
+            const existingClasses = JSON.parse(localStorage.getItem('createdClasses')) || [];
+            const newClass = { name: className, code: courseCode };
+            existingClasses.push(newClass);
+            localStorage.setItem('createdClasses', JSON.stringify(existingClasses));
+            navigate('/lecturer/lec-classes', { state: { className, courseCode } });
         } else {
-            alert('Please enter a class name');
+            alert('Please enter a class name and generate a course code');
         }
     };
 
