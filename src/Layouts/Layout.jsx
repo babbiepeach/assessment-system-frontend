@@ -11,22 +11,24 @@ const Layout = () => {
     const [showSidebar, setShowSidebar] = useState(true)
 
     const { user } = useSelector(state => state.auth)
+    const userRole = user?.role?.toLowerCase()
 
     const toggleSidebarVisibility = () => {
         setShowSidebar((prev) => (prev === true ? false : true));
     };
 
+
     return (
         <div className="flex h-screen fixed w-full">
             <div>
-                {user?.role?.toLowerCase() === ROLE_STUDENT && (
+                {userRole === ROLE_STUDENT && (
                     <React.Fragment>
                         {showSidebar && (
                             <StudentSidebar />
                         )}
                     </React.Fragment>
                 )}
-                {user?.role?.toLowerCase() === ROLE_LECTURER && (
+                {userRole === ROLE_LECTURER && (
                     <React.Fragment>
                         {showSidebar && (
                             <LecturerSidebar />
@@ -37,7 +39,7 @@ const Layout = () => {
 
             <div className="flex-1 flex flex-col">
                 <div>
-                    <Header toggleSidebar={toggleSidebarVisibility} />
+                    <Header toggleSidebar={toggleSidebarVisibility} role={userRole} />
                 </div>
                 <div className="flex-1 flex justify-center items-center bg-gray-100 p-6">
                     <Outlet />

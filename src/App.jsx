@@ -8,10 +8,12 @@ import FourZeroFour from './components/ErrorBoundary/FourZeroFour.jsx'
 
 import Layout from "./Layouts/Layout.jsx";
 
+// common pages
+import Notification from "./common-components/Notification.jsx";
+
 // student pages
 import StudentAssignment from "./Pages/Student/StudentAssignment.jsx";
 import AssignmentView from "./Pages/Student/AssignmentView.jsx";
-import StudentNotification from "./Pages/Student/StudentNotification.jsx";
 import StudentClasses from "./Pages/Student/StudentClasses.jsx";
 import ClassCode from "./Pages/Student/ClassCode.jsx"
 import StudentDashboard from "./Pages/Student/StudentDashboard.jsx";
@@ -63,7 +65,7 @@ function App() {
             <Route path="student-main" element={<StudentMain />} />
             <Route path="assignments" element={<StudentAssignment />} />
             <Route path="view-assignment" element={<AssignmentView />} />
-            <Route path="notifications" element={<StudentNotification />} />
+            <Route path="notifications" element={<Notification />} />
           </Route>
         </Route>
 
@@ -77,6 +79,7 @@ function App() {
             <Route path="create-assignment" element={<CreateAssignment />} />
             <Route path="class-grade" element={<ClassGrades />} />
             <Route path="class-history" element={<ClassHistory />} />
+            <Route path="notifications" element={<Notification />} />
           </Route>
         </Route>
 

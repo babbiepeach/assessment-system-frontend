@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import Notify from "/src/assets/notify.png";
-import data from "/src/Pages/Data/data.json";
-import { useGetNotificationsQuery, useMarkNotificationAsReadMutation } from "../../redux/apis/api-slice";
+import { useGetNotificationsQuery, useMarkNotificationAsReadMutation } from "../redux/apis/api-slice";
 import dayjs from "dayjs";
 
 const StudentNotification = () => {
     const [selectedNotification, setSelectedNotification] = useState(null);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-    const { data: notifications } = useGetNotificationsQuery()
+    const { data: notifications, isLoading } = useGetNotificationsQuery()
     const [readNotification] = useMarkNotificationAsReadMutation()
 
     const openSidebar = (notification) => {
@@ -30,6 +29,18 @@ const StudentNotification = () => {
             <div className={`pr-3  transition-all ${isSidebarOpen ? 'md:w-2/3' : 'w-full'}`}>
                 <h2 className="text-xl font-semibold text-black mb-4">Notifications</h2>
                 <div className="flex flex-col gap-4">
+                    {isLoading && (
+                        <React.Fragment>
+                            <div className='w-full h-12 rounded-lg bg-gray-300 animate-pulse' />
+                            <div className='w-full h-12 rounded-lg bg-gray-300 animate-pulse' />
+                            <div className='w-full h-12 rounded-lg bg-gray-300 animate-pulse' />
+                            <div className='w-full h-12 rounded-lg bg-gray-300 animate-pulse' />
+                            <div className='w-full h-12 rounded-lg bg-gray-300 animate-pulse' />
+                        </React.Fragment>
+                    )}
+                    {(notifications?.length === 0) || (!isLoading) && (
+                        <p>You have <span className="text-dark-blue">0</span> notifications</p>
+                    )}
                     {notifications?.map((notification) => (
                         <div
                             key={notification?.id}

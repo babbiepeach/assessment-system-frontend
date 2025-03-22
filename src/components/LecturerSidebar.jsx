@@ -34,7 +34,7 @@ const LecturerSidebar = () => {
         { name: 'Classes', path: `/${ROLE_LECTURER}/lec-classes`, icon: BookIcon },
         { name: 'Assignments', path: `/${ROLE_LECTURER}/lec-classes`, icon: PenIcon },
         { name: 'Similarity Checker', path: `/${ROLE_LECTURER}/lec-classes`, icon: PenIcon },
-        { name: 'Notifications', path: `/${ROLE_LECTURER}/lec-classes`, icon: BellIcon },
+        { name: 'Notifications', path: `/${ROLE_LECTURER}/notifications`, icon: BellIcon },
     ]
 
     const handleLogout = () => {
@@ -64,7 +64,7 @@ const LecturerSidebar = () => {
                                     className={`w-full flex items-center px-5 py-2 rounded-md 
                                                         hover:bg-soft-blue transition-colors duration-200 cursor-pointer
                                                         ${path === item.path && 'bg-soft-blue'}`}>
-                                    <Link to={item.path} onClick={() => canOpenDropdown(item.hasDropdown)} className='flex items-center gap-2 flex-1'>
+                                    <Link to={item.path} className='flex items-center gap-2 flex-1'>
                                         <img src={item.icon} alt={item.name} />
                                         <span className='text-white'>{item.name}</span>
                                     </Link>

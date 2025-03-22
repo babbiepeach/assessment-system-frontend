@@ -106,11 +106,8 @@ export const apiSlice = createApi({
             dispatch(setUserDetails(data))
           }
         } catch (error) {
-          if (error?.message == 'jwt token expired') {
-            dispatch(logout())
-            dispatch(resetStorageSlice())
-          }
-
+          dispatch(logout())
+          dispatch(resetStorageSlice())
           dispatch(
             setError(
               error?.message
