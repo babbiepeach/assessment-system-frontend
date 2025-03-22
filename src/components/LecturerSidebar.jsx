@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ROLE_LECTURER } from '../redux/utils';
@@ -9,25 +9,22 @@ import LogOutIcon from '/src/assets/logout.png';
 
 import { resetStorageSlice } from '../redux/slices/storage-slice';
 import { logout } from '../redux/slices/auth-slice';
+import { useProfileMutation } from '../redux/apis/api-slice';
 
 const LecturerSidebar = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const path = useLocation().pathname
 
-    // const { user, userDetails } = useSelector(state => state.auth)
-    const userDetails = {
-        name: 'Please Wait',
-        email: 'Loading'
-    }
+    const { user, userDetails } = useSelector(state => state.auth)
 
-    const [ getProfile ] = useProfileMutation()
+    const [getProfile] = useProfileMutation()
     useEffect(() => {
         if (user) {
             dispatch(getProfile)
         }
     }, [user])
-    
+
     const getInitials = (name) => {
         if (!name) return "EA";
 
@@ -38,7 +35,7 @@ const LecturerSidebar = () => {
 
         return `${firstNameInitial}${lastNameInitial}`;
     }
-    const initials = getInitials(userDetails?.name);
+    const initials = getInitials(userDetails?.fullName);
 
     const navItems = [
         { name: 'Home', path: `/${ROLE_LECTURER}`, icon: HomeIcon },
@@ -58,18 +55,18 @@ const LecturerSidebar = () => {
                     {initials || ''}
                 </div>
                 <div className='text-sm w-[150px] text-white'>
-                    <h3>{userDetails?.name || ''}</h3>
+                    <h3>{userDetails?.fullName || ''}</h3>
                     <p className='text-[11px]'>{userDetails?.email || ''}</p>
                 </div>
             </div>
 
-            <div className='border-t border-b border-white h-[27rem]'>
-                <nav className="flex justify-center items-center pt-8">
+            <div className='w-full border-t border-b border-white h-[27rem]'>
+                <nav className="w-full flex  items-center pt-8">
                     <ul className="flex flex-col font-medium gap-6">
                         {navItems.map((item, id) => (
-                            <li className='relative' key={id}>
+                            <li className='relative w-full' key={id}>
                                 <div to={item.path}
-                                    className={`flex items-center px-5 py-2 pl-4 rounded-md 
+                                    className={`w-full flex items-center px-5 py-2 rounded-md 
                                                         hover:bg-soft-blue transition-colors duration-200 cursor-pointer
                                                         ${path === item.path && 'bg-soft-blue'}`}>
                                     <Link to={item.path} onClick={() => canOpenDropdown(item.hasDropdown)} className='flex items-center gap-2 flex-1'>
@@ -84,12 +81,12 @@ const LecturerSidebar = () => {
             </div>
 
             <div className='flex justify-center pt-6'>
-                <Button onClick={() => handleLogout()} className="flex items-center text-white w-[200px] gap-2 px-5 py-2 pl-4 rounded-md 
+                <button onClick={() => handleLogout()} className="flex items-center text-white w-[200px] gap-2 px-5 py-2 rounded-md 
                     hover:bg-soft-blue hover:text-white transition-colors duration-200 cursor-pointer 
                     active:bg-soft-blue active:text-white">
                     <img src={LogOutIcon} alt="logout icon" />
                     <span>Logout</span>
-                </Button>
+                </button>
             </div>
         </div>
     );

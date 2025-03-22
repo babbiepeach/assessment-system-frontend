@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { useSelector } from "react-redux";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Outlet, Navigate, useLocation } from "react-router-dom";
 import { ROLE_STUDENT, ROLE_LECTURER } from "./redux/utils.jsx";
 import { clearError, clearSuccess } from './redux/slices/message-slice'
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.jsx'
@@ -33,29 +33,52 @@ const LoginPage = lazy(() => import('./Pages/LoginPage.jsx'))
 function App() {
   const { error, success, message } = useSelector(state => state.message)
 
+  const RouteGuard = ({ allowedRole }) => {
+    const { user } = useSelector(state => state.auth)
+    const userRole = user?.role?.toLowerCase();
+    const location = useLocation();
+
+    // If user is not logged in, redirect to login
+    if (!user) {
+      return <Navigate to="/" state={{ from: location }} replace />;
+    }
+
+    // If user tries to access another role's page, redirect to their dashboard
+    if (userRole !== allowedRole) {
+      return <Navigate to={`/${userRole}`} replace />;
+    }
+
+    return (
+      <Outlet />
+    )
+  }
+
   const PrivateRoutes = () => {
     return (
       <Routes>
-        {/* Nested Routes inside StudentLayout */}
-        <Route path={`/${ROLE_STUDENT}`} element={<StudentLayout />}>
-          <Route index element={<StudentDashboard />} />
-          <Route path="join-class" element={<ClassCode />} />
-          <Route path="classes" element={<StudentClasses />} />
-          <Route path="student-main" element={<StudentMain />} />
-          <Route path="assignments" element={<StudentAssignment />} />
-          <Route path="view-assignment" element={<AssignmentView />} />
-          <Route path="notifications" element={<StudentNotification />} />
+        <Route element={<RouteGuard allowedRole={ROLE_STUDENT} />}>
+          <Route path={`/${ROLE_STUDENT}`} element={<StudentLayout />}>
+            <Route index element={<StudentDashboard />} />
+            <Route path="join-class" element={<ClassCode />} />
+            <Route path="classes" element={<StudentClasses />} />
+            <Route path="student-main" element={<StudentMain />} />
+            <Route path="assignments" element={<StudentAssignment />} />
+            <Route path="view-assignment" element={<AssignmentView />} />
+            <Route path="notifications" element={<StudentNotification />} />
+          </Route>
         </Route>
 
-        <Route path={`/${ROLE_LECTURER}`} element={<LecturerLayout />}>
-          <Route index element={<LecturerDashboard />} />
-          <Route path="create-class" element={<CreateClass />} />
-          <Route path="lec-classes" element={<LecturerClasses />} />
-          <Route path="class-main" element={<Classmain />} />
-          <Route path="class-assignment" element={<ClassAssignment />} />
-          <Route path="create-assignment" element={<CreateAssignment />} />
-          <Route path="class-grade" element={<ClassGrades />} />
-          <Route path="class-history" element={<ClassHistory />} />
+        <Route element={<RouteGuard allowedRole={ROLE_LECTURER} />}>
+          <Route path={`/${ROLE_LECTURER}`} element={<LecturerLayout />}>
+            <Route index element={<LecturerDashboard />} />
+            <Route path="create-class" element={<CreateClass />} />
+            <Route path="lec-classes" element={<LecturerClasses />} />
+            <Route path="class-main" element={<Classmain />} />
+            <Route path="class-assignment" element={<ClassAssignment />} />
+            <Route path="create-assignment" element={<CreateAssignment />} />
+            <Route path="class-grade" element={<ClassGrades />} />
+            <Route path="class-history" element={<ClassHistory />} />
+          </Route>
         </Route>
 
         <Route path='*' element={<FourZeroFour />} />

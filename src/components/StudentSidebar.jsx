@@ -20,11 +20,7 @@ const StudentSidebar = () => {
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
-    // const { user, userDetails } = useSelector(state => state.auth)
-    const userDetails = {
-        name: 'Please Wait',
-        email: 'Loading'
-    }
+    const { user, userDetails } = useSelector(state => state.auth)
 
     const [ getProfile ] = useProfileMutation()
     useEffect(() => {
@@ -43,7 +39,7 @@ const StudentSidebar = () => {
 
         return `${firstNameInitial}${lastNameInitial}`;
     }
-    const initials = getInitials(userDetails?.name);
+    const initials = getInitials(userDetails?.fullName);
 
     const navItems = [
         { name: 'Home', path: `/${ROLE_STUDENT}`, icon: HomeIcon, hasDropdown: false },
@@ -86,7 +82,7 @@ const StudentSidebar = () => {
                     {initials || ''}
                 </div>
                 <div className='text-sm w-[150px] text-white'>
-                    <h3>{userDetails?.name || ''}</h3>
+                    <h3>{userDetails?.fullName || ''}</h3>
                     <p className='text-[11px]'>{userDetails?.email || ''}</p>
                 </div>
             </div>
@@ -133,12 +129,12 @@ const StudentSidebar = () => {
             </div>
 
             <div className='flex justify-center pt-6'>
-                <Button onClick={()=>handleLogout()} className="flex items-center text-white w-[200px] gap-2 px-5 py-2 pl-4 rounded-md 
+                <button onClick={()=>handleLogout()} className="flex items-center text-white w-[200px] gap-2 px-5 py-2 pl-4 rounded-md 
                     hover:bg-soft-blue hover:text-white transition-colors duration-200 cursor-pointer 
                     active:bg-soft-blue active:text-white">
                     <img src={LogOutIcon} alt="logout icon" />
                     <span>Logout</span>
-                </Button>
+                </button>
             </div>
         </div>
     );

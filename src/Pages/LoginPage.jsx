@@ -287,7 +287,7 @@ const LoginPage = () => {
                     </div>
                 </div>
 
-                <div className='w-1/2 h-full overflow-y-scroll place-content-center place-items-center relative'>
+                <div className='w-1/2 h-full overflow-y-auto place-content-center place-items-center relative'>
                     <img src={Logo} className='w-[5rem] absolute top-5 right-5' />
 
                     <h2 className='w-full inline-flex justify-center text-2xl font-bold text-light-blue'>
