@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import ClassNavbar from '../../components/ClassNavbar'; // Assuming this is the correct path
 
 const ClassAssignment = () => {
     const [assignments, setAssignments] = useState([]);
@@ -18,8 +17,6 @@ const ClassAssignment = () => {
 
     return (
         <div className="flex flex-col h-screen">
-            {/* Class Navbar */}
-            <ClassNavbar />
 
             <div className="flex-1 overflow-y-auto hide-scrollbar p-4 pb-32 bg-gray-50">
                 <div className="w-full max-w-5xl mx-auto font-poppins">

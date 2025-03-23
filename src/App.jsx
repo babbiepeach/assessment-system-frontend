@@ -24,10 +24,7 @@ import LecturerDashboard from "./Pages/Lecturer/LecturerDashboard.jsx";
 import LecturerClasses from "./Pages/Lecturer/LecturerClasses.jsx";
 import CreateClass from "./Pages/Lecturer/CreateClass.jsx";
 import ClassView from "./Pages/Lecturer/ClassView.jsx";
-import ClassAssignment from "./Pages/Lecturer/ClassAssignment.jsx";
 import CreateAssignment from "./Pages/Lecturer/CreateAssignment.jsx";
-import ClassGrades from "./Pages/Lecturer/ClassGrades.jsx";
-import ClassHistory from "./Pages/Lecturer/ClassHistory.jsx";
 
 const LoginPage = lazy(() => import('./Pages/LoginPage.jsx'))
 
@@ -75,10 +72,7 @@ function App() {
             <Route path="classes" element={<LecturerClasses />} />
             <Route path="classes/create-class" element={<CreateClass />} />
             <Route path="classes/:classId" element={<ClassView />} />
-            <Route path="class-assignment" element={<ClassAssignment />} />
-            <Route path="create-assignment" element={<CreateAssignment />} />
-            <Route path="class-grade" element={<ClassGrades />} />
-            <Route path="class-history" element={<ClassHistory />} />
+            
             <Route path="notifications" element={<Notification />} />
           </Route>
         </Route>
