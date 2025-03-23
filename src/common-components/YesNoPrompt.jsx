@@ -21,7 +21,7 @@ const YesNoPrompt = ({ promptMessage, handleSubmit, handleCancel, isLoading, isN
                         style={{ backgroundColor: isNegativePrompt ? '#c50000' : '#2563eb' }}
                         className="px-4 py-2 text-white rounded-md"
                     >
-                        Yes, Continue
+                        {isLoading ? 'Continuing...' : 'Yes, Continue'}
                     </button>
                 </div>
             </div>

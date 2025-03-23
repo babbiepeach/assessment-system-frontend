@@ -72,7 +72,7 @@ const LecturerSidebar = () => {
                             <li className='relative w-full' key={id}>
                                 <div className={`w-full flex items-center px-5 py-2 rounded-md 
                                         hover:bg-soft-blue transition-colors duration-200 cursor-pointer
-                                        ${(path === item.path) || (path.includes(item.path)) && 'bg-soft-blue'}`}>
+                                        ${(path === item.path) || (path.includes(item.path)) ? 'bg-soft-blue' : ''}`}>
                                     <Link to={item.path} className='flex items-center gap-2 flex-1'>
                                         <img src={item.icon} alt={item.name} />
                                         <span className='text-white'>{item.name}</span>
