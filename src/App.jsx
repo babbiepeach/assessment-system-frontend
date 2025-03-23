@@ -25,6 +25,7 @@ import LecturerClasses from "./Pages/Lecturer/LecturerClasses.jsx";
 import CreateClass from "./Pages/Lecturer/CreateClass.jsx";
 import ClassView from "./Pages/Lecturer/ClassView.jsx";
 import CreateAssignment from "./Pages/Lecturer/CreateAssignment.jsx";
+import SimilarityChecker from "./Pages/Lecturer/SimilarityChecker.jsx";
 
 const LoginPage = lazy(() => import('./Pages/LoginPage.jsx'))
 
@@ -72,7 +73,7 @@ function App() {
             <Route path="classes" element={<LecturerClasses />} />
             <Route path="classes/create-class" element={<CreateClass />} />
             <Route path="classes/:classId" element={<ClassView />} />
-            
+            <Route path="similarity-checker" element={<SimilarityChecker />} />
             <Route path="notifications" element={<Notification />} />
           </Route>
         </Route>

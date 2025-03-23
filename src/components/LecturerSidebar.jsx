@@ -33,7 +33,7 @@ const LecturerSidebar = () => {
         // { name: 'Home', path: `/${ROLE_LECTURER}`, icon: HomeIcon },
         { name: 'Classes', path: `/${ROLE_LECTURER}/classes`, icon: BookIcon },
         // { name: 'Assignments', path: `/${ROLE_LECTURER}/classes`, icon: PenIcon },
-        { name: 'Similarity Checker', path: `/${ROLE_LECTURER}/classes`, icon: PenIcon },
+        { name: 'Similarity Checker', path: `/${ROLE_LECTURER}/similarity-checker`, icon: PenIcon },
         { name: 'Notifications', path: `/${ROLE_LECTURER}/notifications`, icon: BellIcon },
     ]
 
