@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { ROLE_STUDENT } from '../redux/utils';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getInitials, ROLE_STUDENT } from '../redux/utils';
 
 import BellIcon from '../assets/bell.png';
 import BookIcon from '../assets/book.png';
@@ -9,31 +9,29 @@ import HomeIcon from '../assets/Home.png';
 import PenIcon from '../assets/pen.png';
 import LogOutIcon from '../assets/logout.png';
 
+import { resetStorageSlice } from '../redux/slices/storage-slice';
+import { logout } from '../redux/slices/auth-slice';
+import { useProfileMutation } from '../redux/apis/api-slice';
+
 const StudentSidebar = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const path = useLocation().pathname
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
 
-    // const { user } = useSelector(state => state.auth)
-    const user = {
-        name: 'Taiwo George-Taylor',
-        email: 'taiwogeorgetaylor.gt@gmail.com'
-    }
+    const { user, userDetails } = useSelector(state => state.auth)
 
-    const getInitials = (name) => {
-        if (!name) return "EA";
+    const [getProfile] = useProfileMutation()
+    useEffect(() => {
+        if (user) {
+            dispatch(getProfile)
+        }
+    }, [user])
 
-        const [firstName, lastName] = name.split(" ").map(part => part.trim());
-
-        const firstNameInitial = firstName ? firstName[0] : "E";
-        const lastNameInitial = lastName ? lastName[0] : "A";
-
-        return `${firstNameInitial}${lastNameInitial}`;
-    }
-    const initials = getInitials(user.name);
+    const initials = getInitials(userDetails?.fullName);
 
     const navItems = [
-        { name: 'Home', path: `/${ROLE_STUDENT}`, icon: HomeIcon, hasDropdown: false },
         {
             name: 'Enrolled  Classes',
             path: `/${ROLE_STUDENT}/classes`,
@@ -60,27 +58,42 @@ const StudentSidebar = () => {
         }
     }
 
+    const handleLogout = () => {
+        dispatch(resetStorageSlice())
+        dispatch(logout())
+        navigate('/')
+    }
+
     return (
         <div className='h-[100vh] w-[17rem] font-poppins bg-light-blue pt-14 pl-3'>
             <div className='flex gap-2 items-center pl-3 pr-5 pb-6'>
                 <div className='bg-some-white rounded-full w-11 h-11 text-black inline-flex items-center justify-center'>
-                    {initials}
+                    {initials || ''}
                 </div>
                 <div className='text-sm w-[150px] text-white'>
-                    <h3>Taiwo George-Taylor</h3>
-                    <p className='text-[11px]'>taiwogeorgetaylor.gt@gmail.com</p>
+                    <h3>{userDetails?.fullName || ''}</h3>
+                    <p className='text-[11px]'>{userDetails?.email || ''}</p>
                 </div>
             </div>
 
             <div className='border-t border-b border-white h-[27rem]'>
                 <nav className="flex justify-center items-center pt-8">
                     <ul className="flex flex-col font-medium gap-6">
+                        <li className='relative' >
+                            <div className={`flex items-center px-5 py-2 pl-4 rounded-md 
+                                    hover:bg-soft-blue transition-colors duration-200 cursor-pointer
+                                    ${path === `/${ROLE_STUDENT}` && 'bg-soft-blue'}`}>
+                                <Link to={ `/${ROLE_STUDENT}`} className='flex items-center gap-2 flex-1'>
+                                    <img src={HomeIcon} alt={'home'} />
+                                    <span className='text-white'>Home</span>
+                                </Link>
+                            </div>
+                        </li>
                         {navItems.map((item, id) => (
                             <li className='relative' key={id}>
-                                <div to={item.path}
-                                    className={`flex items-center px-5 py-2 pl-4 rounded-md 
+                                <div className={`flex items-center px-5 py-2 pl-4 rounded-md 
                                     hover:bg-soft-blue transition-colors duration-200 cursor-pointer
-                                    ${path === item.path && 'bg-soft-blue'}`}>
+                                    ${(path === item.path) || (path.includes(item.path)) && 'bg-soft-blue'}`}>
                                     <Link to={item.path} onClick={() => canOpenDropdown(item.hasDropdown)} className='flex items-center gap-2 flex-1'>
                                         <img src={item.icon} alt={item.name} />
                                         <span className='text-white'>{item.name}</span>
@@ -114,12 +127,12 @@ const StudentSidebar = () => {
             </div>
 
             <div className='flex justify-center pt-6'>
-                <Link to="/login" className="flex items-center text-white w-[200px] gap-2 px-5 py-2 pl-4 rounded-md 
+                <button onClick={() => handleLogout()} className="flex items-center text-white w-[200px] gap-2 px-5 py-2 pl-4 rounded-md 
                     hover:bg-soft-blue hover:text-white transition-colors duration-200 cursor-pointer 
                     active:bg-soft-blue active:text-white">
                     <img src={LogOutIcon} alt="logout icon" />
                     <span>Logout</span>
-                </Link>
+                </button>
             </div>
         </div>
     );

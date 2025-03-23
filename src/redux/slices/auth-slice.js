@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     user: null,
+    userDetails: null,
     accessToken: '',
     isLoggedIn: false,
     loading: false,
@@ -14,9 +15,12 @@ const authSlice = createSlice({
         setCredentials: (state, action) => {
             state.isLoggedIn = true;
             state.loading = false;
-            state.user = action.payload;
+            state.user = action.payload.user;
             state.accessToken = action.payload.access_token;
         },
+        setUserDetails: (state, action) => {
+            state.userDetails = action.payload;
+            },
         setRefreshedData: (state, action) => {
             const user = state?.user ?? {};
             state.user = { ...user, ...action?.payload };
@@ -29,6 +33,7 @@ const authSlice = createSlice({
             state.isLoggedIn = false;
             state.loading = false;
             state.user = null;
+            state.userDetails=null;
             state.accessToken = '';
         },
     },
@@ -37,8 +42,11 @@ const authSlice = createSlice({
 const { reducer, actions } = authSlice;
 
 export const {
-    setCredentials, setIsLoading,
-    logout, setRefreshedData,
+    setUserDetails,
+    setCredentials, 
+    setIsLoading,
+    setRefreshedData,
+    logout, 
 } = actions;
 
 export default reducer;

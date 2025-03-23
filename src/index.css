@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: lightgray;
+  border-radius: 6px;
+}
+
 /* Hide the default scrollbar */
 .hide-scrollbar::-webkit-scrollbar {
   display: none;

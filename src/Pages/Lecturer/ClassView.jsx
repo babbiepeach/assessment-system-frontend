@@ -4,7 +4,7 @@ import DocImage from '/src/assets/docs.jpg';
 import Xmark from '/src/assets/xmarks.jpg';
 import { MoreVertical } from 'lucide-react';
 
-const Classmain = () => {
+const ClassView = () => {
     const [announcements, setAnnouncements] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [newAnnouncement, setNewAnnouncement] = useState('');
@@ -186,7 +186,4 @@ const Classmain = () => {
     );
 };
 
-export default Classmain;
-
-
-
+export default ClassView;

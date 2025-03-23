@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { ROLE_STUDENT } from '../../redux/utils'
 
 const StudentDashboard = () => {
     return (
@@ -15,7 +16,7 @@ const StudentDashboard = () => {
                     <span className="text-light-yellow font-semibold">Learn</span>
                 </span>
             </p>
-            <Link to="/student/join-class">
+            <Link to={`/${ROLE_STUDENT}/classes/join-class`}>
                 <button className="mt-6 px-12 py-5 bg-light-blue text-xl text-white font-medium rounded-lg shadow-md">
                     Join Class
                 </button>
