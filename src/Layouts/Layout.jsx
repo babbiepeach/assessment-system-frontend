@@ -28,6 +28,7 @@ const Layout = () => {
                         )}
                     </React.Fragment>
                 )}
+
                 {userRole === ROLE_LECTURER && (
                     <React.Fragment>
                         {showSidebar && (
