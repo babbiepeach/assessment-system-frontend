@@ -39,6 +39,9 @@ const LecturerClasses = () => {
                 {(classes?.length === 0) && (!isLoading) && (
                     <p>You have not created any class</p>
                 )}
+                {!classes && (
+                    <p>You have not created any class</p>
+                )}
                 {classes?.map(cls => (
                     <Link
                         key={cls?.id}

@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ClassStream from './classViewPages/ClassStream';
 import ClassAssignment from './classViewPages/ClassAssignment';
 import ClassGrades from './classViewPages/ClassGrades';
 import ClassHistory from './classViewPages/ClassHistory';
+import { setClassActiveTab } from '../../redux/slices/storage-slice';
 
 const ClassView = () => {
-    const [activeTab, setActiveTab] = useState('tab1')
+    const dispatch = useDispatch()
 
-    const { classId, classInfo } = useSelector(state => state.storage)
-    console.log(classInfo)
-
+    const { classId, classInfo, classActiveTab } = useSelector(state => state.storage)
+    const activeTab = classActiveTab || 'tab1'
+   
     const tabs = [
         {
             id: 'tab1',
@@ -31,7 +32,7 @@ const ClassView = () => {
         {
             id: 'tab4',
             name: 'History',
-            component: <ClassHistory />
+            component: <ClassHistory id={classId} />
         },
     ];
 
@@ -49,7 +50,7 @@ const ClassView = () => {
                                         return (
                                             <button
                                                 key={tab.id}
-                                                onClick={() => setActiveTab(tab.id)}
+                                                onClick={() => dispatch(setClassActiveTab(tab.id))}
                                                 className={`font-medium transition relative ${isActive
                                                     ? 'text-blue-600 after:content-[""] after:block after:h-[2px] after:bg-blue-600 after:w-full after:mt-1'
                                                     : 'text-gray-600 hover:text-blue-600'
