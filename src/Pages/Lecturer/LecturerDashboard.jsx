@@ -18,7 +18,7 @@ const LecturerDashboard = () => {
                     </span>
                 </p>
 
-                <Link to={`/${ROLE_LECTURER}/`}>
+                <Link to={`/${ROLE_LECTURER}/classes/create-class`}>
                     <button className="mt-6 px-12 py-5 bg-light-blue text-xl text-white font-medium rounded-lg shadow-md">
                         Create Class
                     </button>

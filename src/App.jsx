@@ -74,7 +74,7 @@ function App() {
             <Route index element={<LecturerDashboard />} />
             <Route path="classes" element={<LecturerClasses />} />
             <Route path="classes/create-class" element={<CreateClass />} />
-            <Route path="classes/class" element={<ClassView />} />
+            <Route path="classes/:classId" element={<ClassView />} />
             <Route path="class-assignment" element={<ClassAssignment />} />
             <Route path="create-assignment" element={<CreateAssignment />} />
             <Route path="class-grade" element={<ClassGrades />} />

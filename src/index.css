@@ -12,7 +12,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: lightgray;
+  background: #00000010;
   border-radius: 6px;
 }
 

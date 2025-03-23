@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getInitials } from '../../redux/utils';
+import { getInitials, ROLE_LECTURER } from '../../redux/utils';
 import { useCreateClassMutation } from '../../redux/apis/api-slice';
 
 const CreateClass = () => {
