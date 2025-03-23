@@ -15,9 +15,10 @@ const LoginPage = () => {
     const [showRegisterFrom, setShowRegisterForm] = useState(false)
     const [passwordType, setPasswordType] = useState('password')
 
-    const LoginForm = ({ setPasswordType, passwordType, navigate, dispatch, setShowRegisterForm }) => {
+    const LoginForm = ({ navigate, dispatch, setShowRegisterForm }) => {
         const [password, setPassword] = useState('')
         const [userId, setUserId] = useState('')
+        const [passwordType, setPasswordType] = useState('password')
 
         const { user } = useSelector(state => state.auth)
 
@@ -81,19 +82,14 @@ const LoginPage = () => {
                                 required
                                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 placeholder="Enter your password"
+                                value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
-                            {passwordType === 'password' && (
-                                <p onClick={() => setPasswordType('text')} className='absolute right-2 top-3 text-gray-400 cursor-pointer'>
-                                    Show
-                                </p>
-                            )}
-                            {passwordType === 'text' && (
-                                <p onClick={() => setPasswordType('password')} className='absolute right-2 top-3 text-gray-400 cursor-pointer'>
-                                    Hide
-                                </p>
-                            )}
+                            <p onClick={() => setPasswordType(passwordType === 'password' ? 'text' : 'password')} className='absolute right-2 top-3 text-gray-400 cursor-pointer'>
+                                {passwordType === 'password' ? 'Show' : 'Hide'}
+                            </p>
                         </div>
+
                         {password.length < 6 && (<p className='text-red-600'>Password must have a minimum 6 characters.</p>)}
                     </fieldset>
                 </div>
@@ -101,8 +97,8 @@ const LoginPage = () => {
                 <div className='w-full flex flex-col items-center justify-center pt-4'>
                     <button
                         type='submit'
-                        disabled={isLoading}  
-                        className={`w-[60%] text-white font-medium py-2 rounded-lg transition ${isLoading ? 'bg-gray-600' :'bg-dark-blue'}`}>
+                        disabled={isLoading}
+                        className={`w-[60%] text-white font-medium py-2 rounded-lg transition ${isLoading ? 'bg-gray-600' : 'bg-dark-blue'}`}>
                         Login
                     </button>
                     <p className='pt-3' onClick={() => setShowRegisterForm(true)}>
@@ -113,8 +109,9 @@ const LoginPage = () => {
         )
     }
 
-    const RegisterForm = ({ passwordType, setPasswordType, setShowRegisterForm }) => {
+    const RegisterForm = ({ setShowRegisterForm }) => {
         const [password, setPassword] = useState('')
+        const [passwordType, setPasswordType] = useState('password')
         const [userId, setUserId] = useState('')
         const [email, setEmail] = useState('')
         const [role, setRole] = useState('')
@@ -239,19 +236,14 @@ const LoginPage = () => {
                                 required
                                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 placeholder="Create your password"
+                                value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
-                            {passwordType === 'password' && (
-                                <p onClick={() => setPasswordType('text')} className='absolute right-2 top-3 text-gray-400 cursor-pointer'>
-                                    Show
-                                </p>
-                            )}
-                            {passwordType === 'text' && (
-                                <p onClick={() => setPasswordType('password')} className='absolute right-2 top-3 text-gray-400 cursor-pointer'>
-                                    Hide
-                                </p>
-                            )}
+                            <p onClick={() => setPasswordType(passwordType === 'password' ? 'text' : 'password')} className='absolute right-2 top-3 text-gray-400 cursor-pointer'>
+                                {passwordType === 'password' ? 'Show' : 'Hide'}
+                            </p>
                         </div>
+
                         {password.length < 6 && (<p className='text-red-600'>Password must have a minimum 6 characters.</p>)}
                     </fieldset>
                 </div>
@@ -260,7 +252,7 @@ const LoginPage = () => {
                     <button
                         type='submit'
                         disabled={isLoading}
-                        className={`w-[60%] text-white font-medium py-2 rounded-lg transition ${isLoading ? 'bg-gray-600' :'bg-dark-blue'}`}>
+                        className={`w-[60%] text-white font-medium py-2 rounded-lg transition ${isLoading ? 'bg-gray-600' : 'bg-dark-blue'}`}>
                         Register
                     </button>
                     <p className='pt-3' onClick={() => setShowRegisterForm(false)}>
