@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { ROLE_STUDENT } from '../redux/utils';
+import { getInitials, ROLE_STUDENT } from '../redux/utils';
 
 import BellIcon from '../assets/bell.png';
 import BookIcon from '../assets/book.png';
@@ -22,27 +22,16 @@ const StudentSidebar = () => {
 
     const { user, userDetails } = useSelector(state => state.auth)
 
-    const [ getProfile ] = useProfileMutation()
+    const [getProfile] = useProfileMutation()
     useEffect(() => {
         if (user) {
             dispatch(getProfile)
         }
     }, [user])
 
-    const getInitials = (name) => {
-        if (!name) return "EA";
-
-        const [firstName, lastName] = name.split(" ").map(part => part.trim());
-
-        const firstNameInitial = firstName ? firstName[0] : "E";
-        const lastNameInitial = lastName ? lastName[0] : "A";
-
-        return `${firstNameInitial}${lastNameInitial}`;
-    }
     const initials = getInitials(userDetails?.fullName);
 
     const navItems = [
-        { name: 'Home', path: `/${ROLE_STUDENT}`, icon: HomeIcon, hasDropdown: false },
         {
             name: 'Enrolled  Classes',
             path: `/${ROLE_STUDENT}/classes`,
@@ -90,12 +79,21 @@ const StudentSidebar = () => {
             <div className='border-t border-b border-white h-[27rem]'>
                 <nav className="flex justify-center items-center pt-8">
                     <ul className="flex flex-col font-medium gap-6">
+                        <li className='relative' >
+                            <div className={`flex items-center px-5 py-2 pl-4 rounded-md 
+                                    hover:bg-soft-blue transition-colors duration-200 cursor-pointer
+                                    ${path === `/${ROLE_STUDENT}` && 'bg-soft-blue'}`}>
+                                <Link to={ `/${ROLE_STUDENT}`} className='flex items-center gap-2 flex-1'>
+                                    <img src={HomeIcon} alt={'home'} />
+                                    <span className='text-white'>Home</span>
+                                </Link>
+                            </div>
+                        </li>
                         {navItems.map((item, id) => (
                             <li className='relative' key={id}>
-                                <div to={item.path}
-                                    className={`flex items-center px-5 py-2 pl-4 rounded-md 
+                                <div className={`flex items-center px-5 py-2 pl-4 rounded-md 
                                     hover:bg-soft-blue transition-colors duration-200 cursor-pointer
-                                    ${path === item.path && 'bg-soft-blue'}`}>
+                                    ${(path === item.path) || (path.includes(item.path)) && 'bg-soft-blue'}`}>
                                     <Link to={item.path} onClick={() => canOpenDropdown(item.hasDropdown)} className='flex items-center gap-2 flex-1'>
                                         <img src={item.icon} alt={item.name} />
                                         <span className='text-white'>{item.name}</span>
@@ -129,7 +127,7 @@ const StudentSidebar = () => {
             </div>
 
             <div className='flex justify-center pt-6'>
-                <button onClick={()=>handleLogout()} className="flex items-center text-white w-[200px] gap-2 px-5 py-2 pl-4 rounded-md 
+                <button onClick={() => handleLogout()} className="flex items-center text-white w-[200px] gap-2 px-5 py-2 pl-4 rounded-md 
                     hover:bg-soft-blue hover:text-white transition-colors duration-200 cursor-pointer 
                     active:bg-soft-blue active:text-white">
                     <img src={LogOutIcon} alt="logout icon" />

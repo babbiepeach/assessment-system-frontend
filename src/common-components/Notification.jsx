@@ -1,15 +1,40 @@
 import React, { useState } from "react";
 import Notify from "/src/assets/notify.png";
-import data from "/src/Pages/Data/data.json";
+import { useGetNotificationsQuery, useMarkNotificationAsReadMutation } from "../redux/apis/api-slice";
+import dayjs from "dayjs";
 
-const StudentNotification = () => {
-    const notifications = data.notifications;
-
+const Notification = () => {
     const [selectedNotification, setSelectedNotification] = useState(null);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+    const { data: notifications, isLoading } = useGetNotificationsQuery()
+    const [readNotification] = useMarkNotificationAsReadMutation()
+
+    const getTimeAgo = (dateString) => {
+        const now = dayjs(); 
+        const pastDate = dayjs(dateString); 
+    
+        const diffInSeconds = now.diff(pastDate, "second");
+        const diffInMinutes = now.diff(pastDate, "minute");
+        const diffInHours = now.diff(pastDate, "hour");
+        const diffInDays = now.diff(pastDate, "day");
+    
+        if (diffInSeconds < 60) {
+            return `${diffInSeconds} ${diffInSeconds === 1 ? "second" : "seconds"} ago`;
+        } else if (diffInMinutes < 60) {
+            return `${diffInMinutes} ${diffInMinutes === 1 ? "minute" : "minutes"} ago`;
+        } else if (diffInHours < 24) {
+            return `${diffInHours} ${diffInHours === 1 ? "hour" : "hours"} ago`;
+        } else {
+            return `${diffInDays} ${diffInDays === 1 ? "day" : "days"} ago`;
+        }
+    };
+
     const openSidebar = (notification) => {
         setSelectedNotification(notification);
+        readNotification({
+            id: notification?.id
+        })
         setIsSidebarOpen(true);
     };
 
@@ -24,9 +49,21 @@ const StudentNotification = () => {
             <div className={`pr-3  transition-all ${isSidebarOpen ? 'md:w-2/3' : 'w-full'}`}>
                 <h2 className="text-xl font-semibold text-black mb-4">Notifications</h2>
                 <div className="flex flex-col gap-4">
-                    {notifications.map((notification) => (
+                    {isLoading && (
+                        <React.Fragment>
+                            <div className='w-full h-12 rounded-lg bg-gray-300 animate-pulse' />
+                            <div className='w-full h-12 rounded-lg bg-gray-300 animate-pulse' />
+                            <div className='w-full h-12 rounded-lg bg-gray-300 animate-pulse' />
+                            <div className='w-full h-12 rounded-lg bg-gray-300 animate-pulse' />
+                            <div className='w-full h-12 rounded-lg bg-gray-300 animate-pulse' />
+                        </React.Fragment>
+                    )}
+                    {(notifications?.length === 0) || (!isLoading) && (
+                        <p>You have <span className="text-dark-blue">0</span> notifications</p>
+                    )}
+                    {notifications?.map((notification) => (
                         <div
-                            key={notification.id}
+                            key={notification?.id}
                             onClick={() => openSidebar(notification)}
                             className="flex items-center bg-white p-4 rounded-lg border border-gray-300 shadow-sm cursor-pointer hover:bg-gray-50"
                         >
@@ -34,9 +71,12 @@ const StudentNotification = () => {
                                 <img src={Notify} alt="Notification" className="w-8 h-8" />
                             </div>
                             <div className="flex-1 ml-4">
-                                <p className="text-blue-600 font-medium">{notification.message}</p>
+                                <p className={`${notification?.isRead ? 'text-gray-500' : 'text-blue-600'}
+                                 font-medium`}>
+                                    {notification?.message}
+                                </p>
                             </div>
-                            <p className="text-sm text-gray-500">{notification.date}</p>
+                            <p className="text-sm text-gray-500">{getTimeAgo(notification?.createdAt)}</p>
                         </div>
                     ))}
                 </div>
@@ -74,4 +114,4 @@ const StudentNotification = () => {
     );
 };
 
-export default StudentNotification;
+export default Notification;
