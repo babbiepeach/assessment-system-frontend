@@ -3,7 +3,7 @@ import ClassNavbar from '../../components/ClassNavbar'
 
 const ClassGrades = () => {
     return (
-        <div>
+        <div className='flex flex-col h-screen'>
             <ClassNavbar />
             <div className="">
                 grades content goes here...
