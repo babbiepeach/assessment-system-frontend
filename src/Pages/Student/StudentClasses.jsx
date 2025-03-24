@@ -55,7 +55,7 @@ const StudentClasses = () => {
                         <div className="h-24 bg-gradient-to-r from-blue-600 to-green-500 p-3 text-white">
                             <span className='capitalize font-semibold'>{cls?.name}</span> 
                             <br />
-                            <span className='capitalize'>{cls?.teacher?.name || 'Jack Sparrow'}</span>
+                            <span className='capitalize'>{cls?.teacher?.fullName || 'Jack Sparrow'}</span>
                         </div>
 
                         <div className='pl-2 pt-2'>

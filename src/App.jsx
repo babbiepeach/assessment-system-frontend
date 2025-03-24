@@ -24,7 +24,8 @@ import LecturerDashboard from "./Pages/Lecturer/LecturerDashboard.jsx";
 import LecturerClasses from "./Pages/Lecturer/LecturerClasses.jsx";
 import CreateClass from "./Pages/Lecturer/CreateClass.jsx";
 import ClassView from "./Pages/Lecturer/ClassView.jsx";
-import CreateAssignment from "./Pages/Lecturer/CreateAssignment.jsx";
+import CreateAssignment from "./Pages/Lecturer/classViewPages/assignment/CreateAssignment.jsx";
+import ViewAssignment from "./Pages/Lecturer/classViewPages/assignment/ViewAssignment.jsx";
 import SimilarityChecker from "./Pages/Lecturer/SimilarityChecker.jsx";
 
 const LoginPage = lazy(() => import('./Pages/LoginPage.jsx'))
@@ -73,6 +74,8 @@ function App() {
             <Route path="classes" element={<LecturerClasses />} />
             <Route path="classes/create-class" element={<CreateClass />} />
             <Route path="classes/:classId" element={<ClassView />} />
+            <Route path="classes/assignment/create-assignment" element={<CreateAssignment />} />
+            <Route path="classes/assignment/view/:id" element={<ViewAssignment />} />
             <Route path="similarity-checker" element={<SimilarityChecker />} />
             <Route path="notifications" element={<Notification />} />
           </Route>

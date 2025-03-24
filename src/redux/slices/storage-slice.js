@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  assignmentInfo: {},
   classInfo: {},
   classId: '',
   classActiveTab: 'tab1',
@@ -11,6 +12,9 @@ const storageSlice = createSlice({
   name: 'storage',
   initialState,
   reducers: {
+    setAssignmentInfo: (state, { payload }) => {
+      state.assignmentInfo = { ...payload };
+    },
     setClassInfo: (state, { payload }) => {
       state.classInfo = { ...payload };
     },
@@ -24,6 +28,7 @@ const storageSlice = createSlice({
       state.similarityScore = `${payload}`;
     },
     resetStorageSlice: (state, { payload }) => {
+      state.assignmentInfo = {};
       state.classInfo = {};
       state.classId = '';
       state.classActiveTab = 'tab1';
@@ -35,6 +40,7 @@ const storageSlice = createSlice({
 const { reducer, actions } = storageSlice;
 
 export const {
+  setAssignmentInfo,
   setClassInfo,
   setClassId,
   setClassActiveTab,

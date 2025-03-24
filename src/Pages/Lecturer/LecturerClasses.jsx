@@ -51,7 +51,7 @@ const LecturerClasses = () => {
                             dispatch(setClassId(cls?.id))
                             dispatch(setClassInfo(cls))
                         }}
-                        className="w-[30%] min-w-[200px] border rounded-lg shadow-sm overflow-hidden hover:scale-105 transition-transform"
+                        className="w-[30%] min-w-[200px] h-[15rem] relative  border rounded-lg shadow-sm overflow-hidden hover:scale-105 transition-transform"
                     >
                         <div className="h-24 bg-gradient-to-r from-blue-600 to-green-500 p-3 text-white font-semibold">
                             <span className='capitalize'>{cls?.name}</span>
