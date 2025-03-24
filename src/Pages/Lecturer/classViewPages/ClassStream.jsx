@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import DocImage from '../../../assets/docs.jpg';
 import Xmark from '../../../assets/xmarks.jpg';
 import { MoreVertical } from 'lucide-react';
@@ -10,7 +10,6 @@ const ClassStream = () => {
     const [file, setFile] = useState(null);
     const [editIndex, setEditIndex] = useState(null);
     const [menuIndex, setMenuIndex] = useState(null);
-
 
     useEffect(() => {
         const savedAnnouncements = localStorage.getItem('announcements');
@@ -26,16 +25,26 @@ const ClassStream = () => {
     const handleAddOrEditAnnouncement = () => {
         if (newAnnouncement.trim() === '' && !file) return;
 
+        let fileData = null;
+
+        if (file) {
+            fileData = {
+                name: file.name,
+                type: file.type,
+                url: URL.createObjectURL(file),
+            };
+        }
+
         let updated;
 
         if (editIndex !== null) {
             updated = announcements.map((item, idx) => (
-                idx === editIndex ? { ...item, text: newAnnouncement, file } : item
+                idx === editIndex ? { ...item, text: newAnnouncement, file: fileData } : item
             ));
         } else {
             updated = [...announcements, {
                 text: newAnnouncement,
-                file,
+                file: fileData,
                 date: new Date().toLocaleDateString()
             }];
         }
@@ -55,7 +64,7 @@ const ClassStream = () => {
     const handleEdit = (index) => {
         const item = announcements[index];
         setNewAnnouncement(item.text);
-        setFile(item.file);
+        setFile(null); // Avoid re-upload on edit; show as is
         setEditIndex(index);
         setShowModal(true);
         setMenuIndex(null);
@@ -64,9 +73,7 @@ const ClassStream = () => {
     const handleRemoveFile = () => setFile(null);
 
     return (
-        
         <div className="flex gap-12 flex-1 overflow-hidden">
-
             <div className="flex gap-12 flex-1 overflow-hidden">
                 <div className="bg-[#f7f9fa] h-48 shadow rounded-lg p-4 flex flex-col items-center flex-shrink-0">
                     <h3 className="text-gray-700 mb-2 font-medium">New Announcement</h3>
@@ -108,7 +115,11 @@ const ClassStream = () => {
                             <p className="text-gray-700 mb-4">{item.text}</p>
 
                             {item.file && (
-                                <div className="flex items-center space-x-4 bg-gray-100 p-3 rounded-md">
+                                <a
+                                    href={item.file.url}
+                                    download={item.file.name}
+                                    className="flex items-center space-x-4 bg-gray-100 p-3 rounded-md hover:bg-gray-200"
+                                >
                                     <img
                                         src={DocImage}
                                         alt="Attachment"
@@ -118,7 +129,7 @@ const ClassStream = () => {
                                         <p className="font-semibold text-gray-700">{item.file.name}</p>
                                         <p className="text-xs text-gray-500">{item.file.type.toUpperCase()}</p>
                                     </div>
-                                </div>
+                                </a>
                             )}
                         </div>
                     ))}
@@ -170,7 +181,7 @@ const ClassStream = () => {
                 </div>
             )}
         </div>
-    )
-}
+    );
+};
 
-export default ClassStream
+export default ClassStream;
