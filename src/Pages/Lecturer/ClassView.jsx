@@ -17,7 +17,7 @@ const ClassView = () => {
         {
             id: 'tab1',
             name: 'Stream',
-            component: <ClassStream />
+            component: <ClassStream classId={classId} />
         },
         {
             id: 'tab2',
@@ -32,7 +32,7 @@ const ClassView = () => {
         {
             id: 'tab4',
             name: 'History',
-            component: <ClassHistory id={classId} />
+            component: <ClassHistory id={classId} isActive={classInfo?.isActive} />
         },
     ];
 

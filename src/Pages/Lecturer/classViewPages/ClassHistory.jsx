@@ -5,7 +5,7 @@ import YesNoPrompt from '../../../common-components/YesNoPrompt'
 import { ROLE_LECTURER } from '../../../redux/utils'
 import { useDeactivateClassMutation, useDeleteClassMutation, useGetStudentsInClassQuery, useRemoveStudentFromClassMutation } from '../../../redux/apis/api-slice'
 
-const ClassHistory = ({ id }) => {
+const ClassHistory = ({ id, isActive }) => {
     const navigate = useNavigate()
     const [studentId, setStudentId] = useState(null)
     const [studentName, setStudentName] = useState('')
@@ -30,10 +30,10 @@ const ClassHistory = ({ id }) => {
                 id,
                 studentId,
             })
+
+            setShowRemoveStudent(false)
         } catch (error) {
             console.error(error)
-        } finally {
-            setShowRemoveStudent(false)
         }
     }
     const handleDeleteClass = async () => {
@@ -41,11 +41,11 @@ const ClassHistory = ({ id }) => {
             await deleteClass({
                 id,
             })
-        } catch (error) {
-            console.error(error)
-        } finally {
+
             navigate(`/${ROLE_LECTURER}/classes`)
             setShowDeleteClass(false)
+        } catch (error) {
+            console.error(error)
         }
     }
     const handleDisableClass = async () => {
@@ -53,11 +53,11 @@ const ClassHistory = ({ id }) => {
             await disableClass({
                 id,
             })
-        } catch (error) {
-            console.error(error)
-        } finally {
+
             navigate(`/${ROLE_LECTURER}/classes`)
             setShowDisableClass(false)
+        } catch (error) {
+            console.error(error)
         }
     }
 
@@ -103,12 +103,13 @@ const ClassHistory = ({ id }) => {
                         className='bg-red-600 text-white rounded-md p-2 text-sm'>
                         Delete Class
                     </button>
-
-                    <button
-                        onClick={() => setShowDeleteClass(true)}
-                        className='text-red-600 border border-red-600 rounded-md p-2 text-sm'>
-                        Deactivate Class
-                    </button>
+                    {isActive && (
+                        <button
+                            onClick={() => setShowDeleteClass(true)}
+                            className='text-red-600 border border-red-600 rounded-md p-2 text-sm'>
+                            Deactivate Class
+                        </button>
+                    )}
                 </div>
             </div>
 

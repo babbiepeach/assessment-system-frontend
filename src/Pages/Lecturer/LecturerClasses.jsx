@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import folderIcon from '../../assets/folder.png';
 
 import { ROLE_LECTURER } from '../../redux/utils';
 import { useGetAllClassesQuery } from '../../redux/apis/api-slice';
@@ -50,19 +51,19 @@ const LecturerClasses = () => {
                             dispatch(setClassId(cls?.id))
                             dispatch(setClassInfo(cls))
                         }}
-                        className="w-[30%] min-w-[200px] border rounded-lg shadow-sm overflow-hidden hover:scale-105 transition-transform"
+                        className="w-[30%] min-w-[200px] h-[15rem] relative  border rounded-lg shadow-sm overflow-hidden hover:scale-105 transition-transform"
                     >
                         <div className="h-24 bg-gradient-to-r from-blue-600 to-green-500 p-3 text-white font-semibold">
                             <span className='capitalize'>{cls?.name}</span>
                         </div>
+
                         <div className='pl-2 pt-2'>
                             <p className='capitalize'>{cls?.description}</p>
                             <p className='text-gray-400'>{cls?.classCode}</p>
                         </div>
-                        <div className="h-24 bg-white relative">
-                            <div className="absolute bottom-2 right-2 text-gray-500">
-                                <i className="fa-regular fa-folder"></i>
-                            </div>
+
+                        <div className="absolute bottom-0 right-1 w-full h-fit bg-white flex justify-end p-2">
+                            <img src={folderIcon} alt='folder' />
                         </div>
                     </Link>
                 ))}

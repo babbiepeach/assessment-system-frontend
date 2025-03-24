@@ -21,10 +21,10 @@ const JoinClass = () => {
                 studentId: userDetails?.id,
                 classCode: classCode.toLocaleUpperCase(),
             })
+
+            navigate(`/${ROLE_STUDENT}/classes`)
         } catch (error) {
             console.error(error)
-        } finally {
-            navigate(`/${ROLE_STUDENT}/classes`)
         }
     };
 

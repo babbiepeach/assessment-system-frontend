@@ -22,10 +22,10 @@ const CreateClass = () => {
                 className,
                 classDesc
             })
+
+            navigate(`/${ROLE_LECTURER}/classes`)
         } catch (error) {
             console.error();
-        } finally {
-            navigate(`/${ROLE_LECTURER}/classes`)
         }
     }
 
