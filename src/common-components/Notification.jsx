@@ -44,11 +44,11 @@ const Notification = () => {
     };
 
     return (
-        <div className="relative bg-white rounded-xl h-[100%] w-full font-poppins px-9 py-6 flex">
+        <div className="relative bg-white rounded-xl h-full w-full font-poppins px-9 py-6 flex">
             {/* Main Notification List */}
             <div className={`pr-3  transition-all ${isSidebarOpen ? 'md:w-2/3' : 'w-full'}`}>
                 <h2 className="text-xl font-semibold text-black mb-4">Notifications</h2>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 h-[80vh] overflow-y-auto">
                     {isLoading && (
                         <React.Fragment>
                             <div className='w-full h-12 rounded-lg bg-gray-300 animate-pulse' />
@@ -58,7 +58,7 @@ const Notification = () => {
                             <div className='w-full h-12 rounded-lg bg-gray-300 animate-pulse' />
                         </React.Fragment>
                     )}
-                    {(notifications?.length === 0) || (!isLoading) && (
+                    {(notifications?.length === 0) && (!isLoading) && (
                         <p>You have <span className="text-dark-blue">0</span> notifications</p>
                     )}
                     {notifications?.map((notification) => (

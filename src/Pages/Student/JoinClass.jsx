@@ -67,7 +67,7 @@ const JoinClass = () => {
                         className={`px-4 py-2 rounded-lg ${classCode ? 'bg-light-blue text-white' : 'bg-gray-300 text-gray-600 cursor-not-allowed'}`}
                         disabled={!classCode}
                     >
-                        Join
+                        {isLoading ? 'Joining...' : 'Join'}
                     </button>
                 </div>
             </form>

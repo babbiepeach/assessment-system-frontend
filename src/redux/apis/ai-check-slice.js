@@ -1,7 +1,8 @@
-import { setError, setSuccess } from '../../slices/message-slice';
-import { aiCheckSlice } from '../api-slice';
+import { setError, setSuccess } from '../slices/message-slice';
+import { setSimilarityScore } from '../slices/storage-slice';
+import { aiCheckSlice } from './api-slice';
 
-export const extendAiCheckSlice = aiCheckSlice.injectEndpoints(
+export const extendAiCheckSlice = aiCheckSlice.injectEndpoints({
     endpoints: (builder) => ({
         checkPlagiarism: builder.mutation({
             query: ({ file1, file2, token}) => {
@@ -10,7 +11,7 @@ export const extendAiCheckSlice = aiCheckSlice.injectEndpoints(
                 formData.append('file2', file2)
 
                 return {
-                    url: 'check-plagiarism/',
+                    url: 'plagiarism',
                     method: 'POST',
                     headers: {
                         'content-type': 'multipart/form-data',
@@ -22,12 +23,9 @@ export const extendAiCheckSlice = aiCheckSlice.injectEndpoints(
             async onQueryStarted(args, { queryFulfilled, dispatch }) {
                 try {
                     const { meta, data } = await queryFulfilled;
-                    const { data: savedData, message, status } = data || {};
-
-                    if (status === 200) {
-                        dispatch(setSuccess(message))
-                        console.log(savedData) //for test
-                    }
+                   
+                    console.log(data)                    
+                    dispatch(setSimilarityScore(data?.plagiarism_result?.similarity_percentage))
                 } catch (error) {
                     dispatch(setError(error?.message || error?.error?.message || 'Error checking plagiarism'))
                 }

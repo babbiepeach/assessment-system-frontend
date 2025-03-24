@@ -99,7 +99,7 @@ const LoginPage = () => {
                         type='submit'
                         disabled={isLoading}
                         className={`w-[60%] text-white font-medium py-2 rounded-lg transition ${isLoading ? 'bg-gray-600' : 'bg-dark-blue'}`}>
-                        Login
+                        {isLoading? 'Logging In...' : 'Login'}
                     </button>
                     <p className='pt-3' onClick={() => setShowRegisterForm(true)}>
                         or <span className='underline cursor-pointer'>Register</span>.
@@ -253,7 +253,7 @@ const LoginPage = () => {
                         type='submit'
                         disabled={isLoading}
                         className={`w-[60%] text-white font-medium py-2 rounded-lg transition ${isLoading ? 'bg-gray-600' : 'bg-dark-blue'}`}>
-                        Register
+                        {isLoading? 'Registering...' : 'Register'}
                     </button>
                     <p className='pt-3' onClick={() => setShowRegisterForm(false)}>
                         or <span className='underline cursor-pointer'>Login</span>.
