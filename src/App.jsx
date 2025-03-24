@@ -60,9 +60,9 @@ function App() {
             <Route index element={<StudentDashboard />} />
             <Route path="classes" element={<StudentClasses />} />
             <Route path="classes/join-class" element={<JoinClass />} />
-            <Route path="student-main" element={<StudentMain />} />
+            <Route path="classes/:classId" element={<StudentMain />} />
             <Route path="assignments" element={<StudentAssignment />} />
-            <Route path="view-assignment" element={<AssignmentView />} />
+            <Route path="assignments/view-assignment" element={<AssignmentView />} />
             <Route path="notifications" element={<Notification />} />
           </Route>
         </Route>
