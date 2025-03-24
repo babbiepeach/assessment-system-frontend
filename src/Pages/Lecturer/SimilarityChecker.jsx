@@ -34,8 +34,8 @@ const SimilarityChecker = () => {
     return (
         <div className='font-poppins relative w-full h-full rounded-xl bg-white flex flex-col gap-6 p-10 '>
             <div className=''>
-                <p className='text-lg text-dark-blue font-semibold'>Similarity Checker</p>
-                <p>This uses a custom AI service</p>
+                <p className='text-2xl text-dark-blue uppercase font-semibold'>Similarity Checker</p>
+                <p className=' italic '>This uses a custom AI service</p>
             </div>
 
             {similarityScore && (
@@ -45,7 +45,7 @@ const SimilarityChecker = () => {
                 </div>
             )}
 
-            <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-md">
+            <div className="w-[75%] max-w-[75%] mx-auto p-6 bg-white shadow-md rounded-md">
                 <h2 className="text-xl font-semibold mb-4">Upload Files for Similarity Check</h2>
                 <form onSubmit={handleSimilarityCheck} className="flex flex-col gap-4">
                     {/* File Input 1 */}
@@ -74,13 +74,15 @@ const SimilarityChecker = () => {
                         {file2 && <p className="text-sm text-green-600 mt-1">Selected: {file2.name}</p>}
                     </div>
 
-                    <button
-                        type="submit"
-                        disabled={isLoading}
-                        className="bg-light-blue text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
-                    >
-                        {isLoading ? 'Checking...' : 'Upload & Check Similarity'}
-                    </button>
+                    <div className='flex justify-center'>
+                        <button
+                            type="submit"
+                            disabled={isLoading}
+                            className="bg-light-blue text-white w-[40%] px-4 py-2 rounded-md hover:bg-blue-600 transition"
+                        >
+                            {isLoading ? 'Checking...' : 'Upload & Check Similarity'}
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
