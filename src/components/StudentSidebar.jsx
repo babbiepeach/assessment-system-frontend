@@ -9,9 +9,9 @@ import HomeIcon from '../assets/Home.png';
 import PenIcon from '../assets/pen.png';
 import LogOutIcon from '../assets/logout.png';
 
-import { resetStorageSlice } from '../redux/slices/storage-slice';
 import { logout } from '../redux/slices/auth-slice';
-import { useProfileMutation } from '../redux/apis/api-slice';
+import { resetStorageSlice } from '../redux/slices/storage-slice';
+import { useGetAllClassesQuery, useProfileMutation } from '../redux/apis/api-slice';
 
 const StudentSidebar = () => {
     const dispatch = useDispatch()
@@ -22,6 +22,8 @@ const StudentSidebar = () => {
 
     const { user, userDetails } = useSelector(state => state.auth)
 
+    const { data: classes, isLoading } = useGetAllClassesQuery()
+    const classList = classes?.enrolledClasses || []
     const [getProfile] = useProfileMutation()
     useEffect(() => {
         if (user) {
@@ -36,16 +38,12 @@ const StudentSidebar = () => {
             name: 'Enrolled  Classes',
             path: `/${ROLE_STUDENT}/classes`,
             icon: BookIcon,
-            hasDropdown: true,
-            dropdownNav: [ // need to be gotten from backend somehow. otherwise remove
-                {
-                    label: "Modelling",
-                    path: `/${ROLE_STUDENT}/classes/modelling`,
-                },
-                {
-                    label: "Modelling-2",
-                    path: `/${ROLE_STUDENT}/classes/modelling-2`,
-                },
+            hasDropdown: classList && classList?.length > 0 ? true : false,
+            dropdownNav: [ 
+                ...classList?.map(cls => ({
+                    label: cls?.name, 
+                    path: `/${ROLE_STUDENT}/classes/${cls?.name}`,
+                })),
             ],
         },
         { name: 'Assignments', path: `/${ROLE_STUDENT}/assignments`, icon: PenIcon, hasDropdown: false },
@@ -83,7 +81,7 @@ const StudentSidebar = () => {
                             <div className={`flex items-center px-5 py-2 pl-4 rounded-md 
                                     hover:bg-soft-blue transition-colors duration-200 cursor-pointer
                                     ${path === `/${ROLE_STUDENT}` && 'bg-soft-blue'}`}>
-                                <Link to={ `/${ROLE_STUDENT}`} className='flex items-center gap-2 flex-1'>
+                                <Link to={`/${ROLE_STUDENT}`} className='flex items-center gap-2 flex-1'>
                                     <img src={HomeIcon} alt={'home'} />
                                     <span className='text-white'>Home</span>
                                 </Link>
@@ -114,7 +112,9 @@ const StudentSidebar = () => {
                                             <li key={id}>
                                                 <Link to={item.path} className="flex items-center gap-2 pl-1 py-1 cursor-pointer 
                                             hover:bg-soft-blue rounded-md transition-colors">
-                                                    <div className="bg-dark-blue rounded-full w-8 h-8" /> {item.label}
+                                                    <div className="bg-dark-blue rounded-full w-8 h-8 inline-flex items-center justify-center">
+                                                    {item.label[0]}
+                                                    </div> {item.label}
                                                 </Link>
                                             </li>
                                         ))}

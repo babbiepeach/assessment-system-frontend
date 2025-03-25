@@ -495,7 +495,7 @@ export const apiSlice = createApi({
           'content-type': 'application/json',
         },
         body: JSON.stringify({
-          teacherId,
+          // teacherId,
           title,
           description,
           classId,
@@ -521,6 +521,16 @@ export const apiSlice = createApi({
         }
       },
       invalidatesTag: ['assignments'],
+    }),
+    getAllAssignments: builder.query({
+      query: () => ({
+        url: `/assignments/all`,
+        method: 'GET',
+        headers: {
+          'content-type': 'application/json',
+        },
+      }),
+      providesTags: ['assignments'],
     }),
     submitAssignment: builder.mutation({
       query: ({ assignmentId, file }) => {
@@ -613,7 +623,7 @@ export const apiSlice = createApi({
     }),
     getAllAssignmentSubmissions: builder.query({
       query: ({ assignmentId }) => ({
-        url: `/classes/${assignmentId}/assignments`,
+        url: `/assignments/${assignmentId}/submissions`,
         method: 'GET',
         headers: {
           'content-type': 'application/json',
@@ -654,6 +664,7 @@ export const {
 
   // assignment-apis
   useCreateAssignmentMutation,
+  useGetAllAssignmentsQuery,
   useSubmitAssignmentMutation,
   useCheckAssignmentPlagiarismMutation,
   useGetAllAssignmentSubmissionsQuery,
