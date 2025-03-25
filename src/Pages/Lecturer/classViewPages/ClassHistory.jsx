@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import YesNoPrompt from '../../../common-components/YesNoPrompt'
 
@@ -16,21 +16,7 @@ const ClassHistory = ({ id }) => {
     const [removeStudent, { isLoading: isLoadingRemoveStudent }] = useRemoveStudentFromClassMutation()
     const [deleteClass, { isLoading: isLoadingDeleteClass }] = useDeleteClassMutation()
     const [disableClass, { isLoading: isLoadingDisableClass }] = useDeactivateClassMutation()
-
-    const { data, isLoading: isLoadingStudentList } = useGetStudentsInClassQuery({ id })
-
-    // Extract students list safely
-    const [students, setStudents] = useState([])
-
-    useEffect(() => {
-        if (data?.students) {
-            setStudents(data.students)
-        }
-    }, [data])
-
-    // Debugging logs
-    console.log("ID prop:", id)
-    console.log("Fetched students:", data)
+    const { data: studentsList, isLoading: isLoadingStudentList } = useGetStudentsInClassQuery({ id })
 
     const removeClick = (id, name) => {
         setStudentId(id)
@@ -44,32 +30,33 @@ const ClassHistory = ({ id }) => {
                 id,
                 studentId,
             })
-            setStudents(prevStudents => prevStudents.filter(student => student.id !== studentId))
         } catch (error) {
             console.error(error)
         } finally {
             setShowRemoveStudent(false)
         }
     }
-
     const handleDeleteClass = async () => {
         try {
-            await deleteClass({ id })
-            navigate(`/${ROLE_LECTURER}/classes`)
+            await deleteClass({
+                id,
+            })
         } catch (error) {
             console.error(error)
         } finally {
+            navigate(`/${ROLE_LECTURER}/classes`)
             setShowDeleteClass(false)
         }
     }
-
     const handleDisableClass = async () => {
         try {
-            await disableClass({ id })
-            navigate(`/${ROLE_LECTURER}/classes`)
+            await disableClass({
+                id,
+            })
         } catch (error) {
             console.error(error)
         } finally {
+            navigate(`/${ROLE_LECTURER}/classes`)
             setShowDisableClass(false)
         }
     }
@@ -79,38 +66,46 @@ const ClassHistory = ({ id }) => {
             <div className='w-1/2 p-4 rounded-lg shadow-sm border border-gray-200'>
                 <p className='text-dark-blue mb-2'>Enrolled Students</p>
                 <div className='flex flex-col'>
-                    {isLoadingStudentList ? (
+                    {isLoadingStudentList && (
                         <React.Fragment>
-                            {[...Array(5)].map((_, index) => (
-                                <div key={index} className='w-full h-12 rounded-lg bg-gray-200 my-1 animate-pulse' />
-                            ))}
+                            <div className='w-full h-12 rounded-lg bg-gray-200 my-1 animate-pulse' />
+                            <div className='w-full h-12 rounded-lg bg-gray-200 my-1 animate-pulse' />
+                            <div className='w-full h-12 rounded-lg bg-gray-200 my-1 animate-pulse' />
+                            <div className='w-full h-12 rounded-lg bg-gray-200 my-1 animate-pulse' />
+                            <div className='w-full h-12 rounded-lg bg-gray-200 my-1 animate-pulse' />
                         </React.Fragment>
-                    ) : students.length === 0 ? (
-                        <p className='text-gray-200'>No student has enrolled</p>
-                    ) : (
-                        students.map(student => (
-                            <div key={student?.id} className='flex items-center justify-between p-3 py-4 border-b border-b-gray-200'>
-                                <p className='text-black'>{student?.name}</p>
-                                <button onClick={() => removeClick(student?.id, student?.name)} className='bg-red-600 text-white rounded-md p-1 px-2 text-sm'>
-                                    Remove
-                                </button>
-                            </div>
-                        ))
                     )}
+                    {(studentsList?.length === 0) && (!isLoadingStudentList) && (
+                        <p className='text-gray-200'>No student has enrolled</p>
+                    )}
+                    {!studentsList && (
+                        <p className='text-gray-200'>No student has enrolled</p>
+                    )}
+                    {studentsList?.map(student => (
+                        <div key={student?.id} className='flex items-center justify-between p-3 py-4 border-b border-b-gray-200'>
+                            <p className='text-black'>{student?.name}</p>
+                            <button onClick={() => removeClick(student?.id, student?.name)} className='bg-red-600 text-white rounded-md p-1 px-2 text-sm'>
+                                Remove
+                            </button>
+                        </div>
+                    ))}
                 </div>
             </div>
 
             <div className='w-1/2 p-4 rounded-lg shadow-sm border border-red-600'>
                 <p className='text-red-600 font-bold text-lg'>Danger Zone</p>
+
                 <p>These actions are irreversible.</p>
-                <div className="w-fit my-2 flex flex-col gap-2">
+
+                <div className="w-fit  my-2 flex flex-col gap-2">
                     <button
                         onClick={() => setShowDeleteClass(true)}
                         className='bg-red-600 text-white rounded-md p-2 text-sm'>
                         Delete Class
                     </button>
+
                     <button
-                        onClick={() => setShowDisableClass(true)}
+                        onClick={() => setShowDeleteClass(true)}
                         className='text-red-600 border border-red-600 rounded-md p-2 text-sm'>
                         Deactivate Class
                     </button>
@@ -119,7 +114,7 @@ const ClassHistory = ({ id }) => {
 
             {showRemoveStudent && (
                 <YesNoPrompt
-                    promptMessage={`Are you sure you want to remove this student: `}
+                    promptMessage={`Are you sure you want to remove this student: <span className='font-bold'>${studentName}</span>?`}
                     handleSubmit={handleRemoveStudent}
                     handleCancel={() => setShowRemoveStudent(false)}
                     isNegativePrompt={true}
@@ -128,7 +123,7 @@ const ClassHistory = ({ id }) => {
             )}
             {showDeleteClass && (
                 <YesNoPrompt
-                    promptMessage="Are you sure you want to delete this class?"
+                    promptMessage={`Are you sure you want to delete this class?`}
                     handleSubmit={handleDeleteClass}
                     handleCancel={() => setShowDeleteClass(false)}
                     isNegativePrompt={true}
@@ -137,7 +132,7 @@ const ClassHistory = ({ id }) => {
             )}
             {showDisableClass && (
                 <YesNoPrompt
-                    promptMessage="Are you sure you want to disable this class?"
+                    promptMessage={`Are you sure you want to disable this class?`}
                     handleSubmit={handleDisableClass}
                     handleCancel={() => setShowDisableClass(false)}
                     isNegativePrompt={true}
