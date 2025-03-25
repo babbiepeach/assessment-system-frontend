@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import YesNoPrompt from '../../../common-components/YesNoPrompt'
 
@@ -16,21 +16,7 @@ const ClassHistory = ({ id, isActive }) => {
     const [removeStudent, { isLoading: isLoadingRemoveStudent }] = useRemoveStudentFromClassMutation()
     const [deleteClass, { isLoading: isLoadingDeleteClass }] = useDeleteClassMutation()
     const [disableClass, { isLoading: isLoadingDisableClass }] = useDeactivateClassMutation()
-
-    const { data, isLoading: isLoadingStudentList } = useGetStudentsInClassQuery({ id })
-
-    // Extract students list safely
-    const [students, setStudents] = useState([])
-
-    useEffect(() => {
-        if (data?.students) {
-            setStudents(data.students)
-        }
-    }, [data])
-
-    // Debugging logs
-    console.log("ID prop:", id)
-    console.log("Fetched students:", data)
+    const { data: studentsList, isLoading: isLoadingStudentList } = useGetStudentsInClassQuery({ id })
 
     const removeClick = (id, name) => {
         setStudentId(id)
@@ -51,7 +37,6 @@ const ClassHistory = ({ id, isActive }) => {
             console.error(error)
         }
     }
-
     const handleDeleteClass = async () => {
         try {
             await deleteClass({ id })
@@ -61,7 +46,6 @@ const ClassHistory = ({ id, isActive }) => {
             console.error(error)
         }
     }
-
     const handleDisableClass = async () => {
         try {
             await disableClass({
@@ -80,31 +64,38 @@ const ClassHistory = ({ id, isActive }) => {
             <div className='w-1/2 p-4 rounded-lg shadow-sm border border-gray-200'>
                 <p className='text-dark-blue mb-2'>Enrolled Students</p>
                 <div className='flex flex-col'>
-                    {isLoadingStudentList ? (
+                    {isLoadingStudentList && (
                         <React.Fragment>
-                            {[...Array(5)].map((_, index) => (
-                                <div key={index} className='w-full h-12 rounded-lg bg-gray-200 my-1 animate-pulse' />
-                            ))}
+                            <div className='w-full h-12 rounded-lg bg-gray-200 my-1 animate-pulse' />
+                            <div className='w-full h-12 rounded-lg bg-gray-200 my-1 animate-pulse' />
+                            <div className='w-full h-12 rounded-lg bg-gray-200 my-1 animate-pulse' />
+                            <div className='w-full h-12 rounded-lg bg-gray-200 my-1 animate-pulse' />
+                            <div className='w-full h-12 rounded-lg bg-gray-200 my-1 animate-pulse' />
                         </React.Fragment>
-                    ) : students.length === 0 ? (
-                        <p className='text-gray-200'>No student has enrolled</p>
-                    ) : (
-                        students.map(student => (
-                            <div key={student?.id} className='flex items-center justify-between p-3 py-4 border-b border-b-gray-200'>
-                                <p className='text-black'>{student?.name}</p>
-                                <button onClick={() => removeClick(student?.id, student?.name)} className='bg-red-600 text-white rounded-md p-1 px-2 text-sm'>
-                                    Remove
-                                </button>
-                            </div>
-                        ))
                     )}
+                    {(studentsList?.length === 0) && (!isLoadingStudentList) && (
+                        <p className='text-gray-200'>No student has enrolled</p>
+                    )}
+                    {!studentsList && (
+                        <p className='text-gray-200'>No student has enrolled</p>
+                    )}
+                    {studentsList?.map(student => (
+                        <div key={student?.id} className='flex items-center justify-between p-3 py-4 border-b border-b-gray-200'>
+                            <p className='text-black'>{student?.name}</p>
+                            <button onClick={() => removeClick(student?.id, student?.name)} className='bg-red-600 text-white rounded-md p-1 px-2 text-sm'>
+                                Remove
+                            </button>
+                        </div>
+                    ))}
                 </div>
             </div>
 
             <div className='w-1/2 p-4 rounded-lg shadow-sm border border-red-600'>
                 <p className='text-red-600 font-bold text-lg'>Danger Zone</p>
+
                 <p>These actions are irreversible.</p>
-                <div className="w-fit my-2 flex flex-col gap-2">
+
+                <div className="w-fit  my-2 flex flex-col gap-2">
                     <button
                         onClick={() => setShowDeleteClass(true)}
                         className='bg-red-600 text-white rounded-md p-2 text-sm'>
@@ -122,7 +113,7 @@ const ClassHistory = ({ id, isActive }) => {
 
             {showRemoveStudent && (
                 <YesNoPrompt
-                    promptMessage={`Are you sure you want to remove this student: `}
+                    promptMessage={`Are you sure you want to remove this student: <span className='font-bold'>${studentName}</span>?`}
                     handleSubmit={handleRemoveStudent}
                     handleCancel={() => setShowRemoveStudent(false)}
                     isNegativePrompt={true}
@@ -131,7 +122,7 @@ const ClassHistory = ({ id, isActive }) => {
             )}
             {showDeleteClass && (
                 <YesNoPrompt
-                    promptMessage="Are you sure you want to delete this class?"
+                    promptMessage={`Are you sure you want to delete this class?`}
                     handleSubmit={handleDeleteClass}
                     handleCancel={() => setShowDeleteClass(false)}
                     isNegativePrompt={true}
@@ -140,7 +131,7 @@ const ClassHistory = ({ id, isActive }) => {
             )}
             {showDisableClass && (
                 <YesNoPrompt
-                    promptMessage="Are you sure you want to disable this class?"
+                    promptMessage={`Are you sure you want to disable this class?`}
                     handleSubmit={handleDisableClass}
                     handleCancel={() => setShowDisableClass(false)}
                     isNegativePrompt={true}
