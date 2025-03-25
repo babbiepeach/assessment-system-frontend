@@ -83,7 +83,7 @@ const ClassHistory = ({ id, isActive }) => {
                     )}
                     {studentsList?.map(student => (
                         <div key={student?.id} className='flex items-center justify-between p-3 py-4 border-b border-b-gray-200'>
-                            <p>{student?.name}</p>
+                            <p className='text-black'>{student?.name}</p>
                             <button onClick={() => removeClick(student?.id, student?.name)} className='bg-red-600 text-white rounded-md p-1 px-2 text-sm'>
                                 Remove
                             </button>

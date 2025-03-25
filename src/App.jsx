@@ -81,8 +81,9 @@ function App() {
           </Route>
         </Route>
 
-        <Route path='*' element={<FourZeroFour />} />
-      </Routes>
+        <Route path="create-assignment" element={<CreateAssignment />} />
+        < Route path='*' element={< FourZeroFour />} />
+      </Routes >
     )
   }
 

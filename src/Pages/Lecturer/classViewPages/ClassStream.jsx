@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import DocImage from '../../../assets/docs.jpg';
 import Xmark from '../../../assets/xmarks.jpg';
 import { MoreVertical } from 'lucide-react';
@@ -182,7 +182,7 @@ const ClassStream = ({ classId }) => {
                 </div>
             )}
         </div>
-    )
-}
+    );
+};
 
-export default ClassStream
+export default ClassStream;
